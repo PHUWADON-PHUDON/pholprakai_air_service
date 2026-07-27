@@ -1,15 +1,28 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const lineFontTh = localFont({
+  src: [
+    {
+      path: "../lib/fonts/line-seed/LINESeedSansTH_W_Th.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../lib/fonts/line-seed/LINESeedSansTH_W_Rg.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../lib/fonts/line-seed/LINESeedSansTH_W_Bd.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--line-font-th",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +38,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${lineFontTh.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col max-w-[1440px] mx-auto"
+      >
+        {children}
+      </body>
     </html>
   );
 }
