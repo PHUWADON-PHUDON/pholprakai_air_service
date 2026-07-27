@@ -12,7 +12,7 @@ export default function Header() {
                     <div className="mx-auto max-w-[1440px] p-[20px_0px_10px_0px] grid grid-cols-2 items-center justify-items-center">
                         <div className="flex items-center gap-1 justify-self-start">
                             <Snowflake color="var(--blue-1)"/>
-                            <h1 className="text-2xl font-bold text-blue-1">พลประกาย แอร์ เซอร์วิส</h1>
+                            <h1 className="text-2xl font-bold text-blue-1">พลประกาย แอร์ เซอร์วิส (uat)</h1>
                         </div>
                         <div className="justify-self-end">
                             <MainMenu/>
