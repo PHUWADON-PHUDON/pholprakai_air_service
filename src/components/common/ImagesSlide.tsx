@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 interface ImageSliderProps {
     images: string[];
@@ -7,24 +7,73 @@ interface ImageSliderProps {
 }
 
 export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSliderProps) {
-    // เพิ่ม clone รูปแรกไปต่อท้าย
-    const slides = [...images, images[0]];
-    const [current, setCurrent] = useState(0);
+    const len = images.length;
+    const [index, setIndex] = useState(0); // index จริงของรูปที่กำลังแสดง (0..len-1)
+    const [pos, setPos] = useState(1); // ตำแหน่งใน window 3 ช่อง: 0=prev,1=current,2=next
     const [withTransition, setWithTransition] = useState(true);
+    const isBusyRef = useRef(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+    const prevIdx = (index - 1 + len) % len;
+    const nextIdx = (index + 1) % len;
+    const windowSlides = [images[prevIdx], images[index], images[nextIdx]];
+
     const goToNext = useCallback(() => {
-        setCurrent((prev) => prev + 1);
-    }, []);
+        if (isBusyRef.current || len <= 1) return;
+        isBusyRef.current = true;
+        setWithTransition(true);
+        setPos(2);
+    }, [len]);
 
     const goToPrev = useCallback(() => {
-        setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    }, [images.length]);
-
-    const goToSlide = useCallback((index: number) => {
+        if (isBusyRef.current || len <= 1) return;
+        isBusyRef.current = true;
         setWithTransition(true);
-        setCurrent(index);
-    }, []);
+        setPos(0);
+    }, [len]);
+
+    const goToSlide = useCallback(
+        (target: number) => {
+            if (isBusyRef.current || target === index) return;
+            isBusyRef.current = true;
+            // จุดที่ไม่ใช่ prev/next ที่ติดกัน -> สลับแบบไม่มี transition (ตัดฉาก)
+            setWithTransition(false);
+            setIndex(target);
+            setPos(1);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setWithTransition(true);
+                    isBusyRef.current = false;
+                });
+            });
+        },
+        [index]
+    );
+
+    const handleTransitionEnd = () => {
+        if (pos === 2) {
+            // เลื่อนไป next เสร็จแล้ว -> เปลี่ยน index จริง แล้ว snap window กลับตำแหน่งกลางแบบไม่มี transition
+            setWithTransition(false);
+            setIndex(nextIdx);
+            setPos(1);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setWithTransition(true);
+                    isBusyRef.current = false;
+                });
+            });
+        } else if (pos === 0) {
+            setWithTransition(false);
+            setIndex(prevIdx);
+            setPos(1);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setWithTransition(true);
+                    isBusyRef.current = false;
+                });
+            });
+        }
+    };
 
     // auto slide
     useEffect(() => {
@@ -32,7 +81,8 @@ export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSlide
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, [current]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [index]);
 
     const resetTimer = () => {
         if (timerRef.current) clearInterval(timerRef.current);
@@ -41,34 +91,16 @@ export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSlide
         }, autoPlayDelay);
     };
 
-    // พอเลื่อนไปถึง clone (index สุดท้าย) ให้สลับกลับไปรูปแรกแบบไม่มี transition
-    useEffect(() => {
-        if (current === slides.length - 1) {
-            const timeout = setTimeout(() => {
-                setWithTransition(false);
-                setCurrent(0);
-            }, 700); // ต้องเท่ากับ duration ของ transition (700ms)
-            return () => clearTimeout(timeout);
-        }
-    }, [current, slides.length]);
-
-    // เปิด transition กลับมาใหม่หลังจาก jump แบบไม่มี transition เสร็จแล้ว
-    useEffect(() => {
-        if (!withTransition) {
-            const raf = requestAnimationFrame(() => setWithTransition(true));
-            return () => cancelAnimationFrame(raf);
-        }
-    }, [withTransition]);
-
-    if (images.length === 0) return null;
+    if (len === 0) return null;
 
     return (
         <div className="relative w-full aspect-video max-h-[500px] overflow-hidden rounded-[12px]">
             <div
+                onTransitionEnd={handleTransitionEnd}
                 className={`flex h-full ${withTransition ? "transition-transform duration-700 ease-in-out" : ""}`}
-                style={{ transform: `translateX(-${current * 100}%)` }}
+                style={{ transform: `translateX(-${pos * 100}%)` }}
             >
-                {slides.map((src, i) => (
+                {windowSlides.map((src, i) => (
                     <img
                         key={i}
                         src={`./slide_images/${src}`}
@@ -103,7 +135,7 @@ export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSlide
                         type="button"
                         onClick={() => goToSlide(i)}
                         className={`h-2 rounded-full transition-all cursor-pointer ${
-                            i === current % images.length ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
+                            i === index ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
                         }`}
                         aria-label={`Go to slide ${i + 1}`}
                     />
