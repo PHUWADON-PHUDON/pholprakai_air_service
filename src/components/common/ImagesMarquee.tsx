@@ -18,7 +18,10 @@ export default function ImageMarquee({ images, speed = 30 }: MarqueeProps) {
                         key={`a-${i}`}
                         src={`./logo/${src}`}
                         alt=""
-                        className="h-[40px] object-cover rounded-[12px] flex-shrink-0"
+                        className={`
+                            h-[40px] object-cover rounded-[12px] flex-shrink-0
+                            max-[600px]:h-[30px]
+                        `}
                     />
                 ))}
                 {/* set ที่สอง (clone) — ต่อท้ายให้เลื่อนวนต่อเนื่องไม่มีรอยต่อ */}
@@ -27,7 +30,11 @@ export default function ImageMarquee({ images, speed = 30 }: MarqueeProps) {
                         key={`b-${i}`}
                         src={`./logo/${src}`}
                         alt=""
-                        className="h-[40px] object-cover rounded-[12px] flex-shrink-0"
+                        className={`
+                            h-[40px] object-cover rounded-[12px] flex-shrink-0
+                            max-[600px]:h-[30px]
+                            max-[400px]:h-[20px]
+                        `}
                     />
                 ))}
             </div>

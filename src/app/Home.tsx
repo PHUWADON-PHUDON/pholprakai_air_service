@@ -10,6 +10,7 @@ import VideoEmbedUrl from "@/components/common/VideoEmbedUrl";
 import Btucal from "@/components/common/Btucal";
 import CircleAlert from "@/components/icons/CircleAlert";
 import Footer from "@/components/common/Footer";
+import Verify from "@/components/icons/Verify";
 
 export default function Home() {
     const images = [
@@ -38,53 +39,147 @@ export default function Home() {
     return(
         <div>
             <Header/>
-            <div id="" className="relative pt-[200px] pb-[50px] overflow-hidden flex">
+            <div id="" className={`
+                relative pt-[200px] pb-[50px] overflow-hidden flex
+                max-[750px]:pt-[150px]
+                max-[480px]:pt-[120px] max-[480px]:pb-[30px]
+                max-[420px]:pt-[80px]
+            `}>
                 <img 
                     src="./wave_background_pattern.svg" alt="" 
-                    className="absolute block w-full h-full object-cover border scale-[1.1] top-[95px] opacity-50 left-0 z-[-1]"
+                    className={`
+                        absolute block w-full h-full object-cover border scale-[1.1] top-[95px] opacity-50 left-0 z-[-1]
+                        max-[420px]:top-[0px]
+                    `}
                     style={{
                         maskImage: "linear-gradient(to right, transparent 0%, black 70%, transparent 100%)",
                         WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 70%, transparent 100%)"
                     }}
                 />
-                <div className="p-[20px]">
-                    <p className="text-[40px]">ร้านแอร์ชลบุรี</p>
-                    <p className="text-[50px] font-bold text-blue-2">พลประกาย แอร์ เซอร์วิส</p>
-                    <div>
-                        <span className="mr-[10px] mt-[10px] text-[20px]">ติดตั้งแอร์ใหม่</span>
-                        <span className="mr-[10px] mt-[10px] text-[20px]">ย้ายแอร์</span>
-                        <span className="mr-[10px] mt-[10px] text-[20px]">เช็ครั่ว เติมน้ำยา</span>
-                        <span className="mr-[10px] mt-[10px] text-[20px]">ตรวจเช็ค วิเคราะห์อาการเสีย</span>
-                        <span className="mr-[10px] mt-[10px] text-[20px]">อื่นๆ...</span>
+                <div className={`
+                    p-[20px]
+                    max-[480px]:flex max-[480px]:flex-col max-[480px]:items-center
+                `}>
+                    <p className={`
+                        text-[40px]
+                        max-[860px]:text-[30px]
+                        max-[480px]:text-[25px]
+                        max-[395px]:text-[20px]
+                    `}>ร้านแอร์ชลบุรี</p>
+                    <p className={`
+                        text-[50px] font-bold text-blue-2
+                        max-[860px]:text-[40px]
+                        max-[480px]:text-[35px]
+                        max-[395px]:text-[30px]
+                    `}>พลประกาย แอร์ เซอร์วิส</p>
+                    <div className={`
+                        max-[480px]:flex max-[480px]:justify-center max-[480px]:flex-wrap
+                    `}>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>ติดตั้งแอร์ใหม่</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>ย้ายแอร์</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>เช็ครั่ว เติมน้ำยา</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>ตรวจเช็ค วิเคราะห์อาการเสีย</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>อื่นๆ...</span>
+                    </div>
+                    <div className={`
+                        flex items-center mt-[10px] gap-2 hidden
+                        max-[420px]:flex
+                    `}>
+                        <Phone color="var(--text)"/>
+                        <p className={`
+                            text-[20px]
+                            max-[430px]:text-[16px]
+                            max-[355px]:text-[14px]
+                        `}>โทร: 098-267-1789</p>
+                    </div>
+                    <div className={`
+                        flex items-center mt-[10px] gap-2 hidden
+                        max-[420px]:flex
+                    `}>
+                        <Chat color="var(--text)"/>
+                        <p className={`
+                            text-[20px]
+                            max-[430px]:text-[16px]
+                            max-[355px]:text-[14px]
+                        `}>ไลน์: @064pjnra (มี @ ด้านหน้า)</p>
                     </div>
                     <div className="flex items-center mt-[10px] gap-2">
                         <Mail color="var(--text)"/>
-                        <p className="text-[20px]">อีเมล: tumairservice.chon@gmail.com</p>
+                        <p className={`
+                            text-[20px]
+                            max-[430px]:text-[16px]
+                            max-[355px]:text-[14px]
+                        `}>อีเมล: tumairservice.chon@gmail.com</p>
                     </div>
-                    <div className="mt-[30px] flex gap-3">
-                        <div>
-                            <button 
-                                type="button"
-                                className="flex items-center justify-center gap-2 bg-green w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-green/90"
-                            >
-                                <Chat color="white"/>
-                                <p className="text-white font-bold">ปรึกษาผ่าน ไลน์</p>
-                            </button>
+                    <div className={`
+                        max-w-[370px]
+                        max-[730px]:mt-[30px]
+                    `}>
+                        <div className={`
+                            flex items-center gap-2 p-[2px_10px] rounded-2xl justify-center hidden
+                            max-[730px]:flex
+                        `}>
+                            <Verify color="#d08700"/>
+                            <p className={`
+                                text-yellow-600
+                                max-[385px]:text-[14px]
+                            `}>ผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ</p>
                         </div>
-                        <div>
-                            <button 
-                                type="button"
-                                className="flex items-center justify-center gap-1 outline-2 outline-text/50 w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-black/5"
-                            >
-                                <Phone color="var(--text)"/>
-                                <p className="font-bold">โทรปรึกษา</p>
-                            </button>
+                        <div className={`
+                            mt-[30px] flex gap-3
+                            max-[730px]:mt-[10px]
+                            max-[430px]:flex-col max-[430px]:items-center
+                        `}>
+                            <div>
+                                <button 
+                                    type="button"
+                                    className="flex items-center justify-center gap-2 bg-green w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-green/90"
+                                >
+                                    <Chat color="white"/>
+                                    <p className="text-white font-bold">ปรึกษาผ่าน ไลน์</p>
+                                </button>
+                            </div>
+                            <div>
+                                <button 
+                                    type="button"
+                                    className="flex items-center justify-center gap-1 outline-2 outline-text/50 w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-black/5"
+                                >
+                                    <Phone color="var(--text)"/>
+                                    <p className="font-bold">โทรปรึกษา</p>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div className={`
+                    hidden
+                    max-[980px]:block max-[980px]:w-[400px]
+                    max-[750px]:hidden
+                `}>
+                </div>
                 <img 
                     src="../person.png" alt=""
-                    className="w-[350px] absolute right-[150px] bottom-[-80px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]"
+                    className={`
+                        w-[350px] absolute right-[150px] bottom-[-80px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
+                        max-[1215px]:right-[20px]
+                        max-[860px]:right-[0px]
+                        max-[750px]:hidden
+                    `}
                 />
             </div>
             <div className="my-[25px] px-[20px]">
@@ -95,7 +190,10 @@ export default function Home() {
                     <ImageMarquee images={imagesLogo} speed={150}/>
                 </div>
             </div>
-            <div id="service" className="relative mt-[50px] mb-[25px] h-[450px] p-[20px] flex flex-col items-center overflow-hidden">
+            <div id="service" className={`
+                relative mt-[50px] mb-[25px] h-[450px] p-[20px] flex flex-col items-center overflow-hidden
+                max-[625px]:h-full
+            `}>
                 <img 
                     src="./wave_background_pattern.svg" alt="" 
                     className="absolute top-0 block w-full h-full object-cover border scale-[1.1] opacity-50 left-0 z-[-1]"
@@ -105,8 +203,15 @@ export default function Home() {
                     }}
                 />
                 <p className="text-[25px] font-bold">บริการของเรา</p>
-                <div className="mt-[50px] h-full self-end">
-                    <div className="h-full flex gap-[20px]">
+                <div className={`
+                    mt-[50px] h-full self-end
+                    max-[955px]:self-center
+                    max-[625px]:w-full
+                `}>
+                    <div className={`
+                        h-full flex gap-[20px]
+                        max-[625px]:flex-col
+                    `}>
                         <div className="p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px]">
                             <div className="mb-[10px] flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
@@ -165,7 +270,13 @@ export default function Home() {
                     </div>
                     <img 
                         src="../person2.png" alt=""
-                        className="w-[400px] absolute left-[150px] bottom-[-150px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]"
+                        className={`
+                            w-[400px] absolute left-[150px] bottom-[-150px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
+                            max-[1285px]:left-[80px]
+                            max-[1160px]:left-[0px]
+                            max-[1000px]:w-[350px] max-[1000px]:bottom-[-80px]
+                            max-[955px]:hidden
+                        `}
                     />
                 </div>
             </div>
@@ -195,50 +306,152 @@ export default function Home() {
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">
                 <p className="text-[25px] font-bold text-center">คำนวณ BTU</p>
-                <div className="mt-[20px] flex items-center gap-[20px]">
-                    <table>
+                <div className={`
+                    mt-[20px] flex items-center gap-[20px]
+                    max-[1005px]:flex-col    
+                `}>
+                    <table className={`
+                        max-[1005px]:w-full
+                        max-[550px]:text-[14px]
+                    `}>
                         <thead>
                             <tr className="border-b border-text/30">
-                                <th className="px-[50px] p-[5px] text-blue-1">พื้นที่ห้อง (ตร.ม.)</th>
-                                <th className="px-[50px] p-[5px] text-blue-1">ขนาดห้องโดยประมาณ</th>
-                                <th className="px-[50px] p-[5px] text-blue-1">BTU ที่แนะนำ</th>
+                                <th className={`
+                                    px-[50px] p-[5px] text-blue-1
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px]
+                                `}>พื้นที่ห้อง (ตร.ม.)</th>
+                                <th className={`
+                                    px-[50px] p-[5px] text-blue-1
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px]
+                                `}>ขนาดห้องโดยประมาณ</th>
+                                <th className={`
+                                    px-[50px] p-[5px] text-blue-1
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px]
+                                `}>BTU ที่แนะนำ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">8–12</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนอนเล็ก</td>
-                                <td className="px-[50px] p-[5px] text-center">9,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px] 
+                                    max-[550px]:px-[5px]
+                                `}>8–12</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px] 
+                                    max-[550px]:px-[5px]
+                                `}>ห้องนอนเล็ก</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px] 
+                                    max-[550px]:px-[5px]
+                                `}>9,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">12–16</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนอนกลาง</td>
-                                <td className="px-[50px] p-[5px] text-center">12,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px] 
+                                    max-[550px]:px-[5px]
+                                `}>12–16</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px]
+                                `}>ห้องนอนกลาง</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px]
+                                `}>12,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">16–20</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนอนใหญ่</td>
-                                <td className="px-[50px] p-[5px] text-center">15,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>16–20</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>ห้องนอนใหญ่</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>15,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">20–24</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนั่งเล่นเล็ก</td>
-                                <td className="px-[50px] p-[5px] text-center">18,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>20–24</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>ห้องนั่งเล่นเล็ก</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>18,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">24–30</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนั่งเล่นกลาง</td>
-                                <td className="px-[50px] p-[5px] text-center">20,000–24,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>24–30</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>ห้องนั่งเล่นกลาง</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>20,000–24,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">30–40</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องนั่งเล่นใหญ่</td>
-                                <td className="px-[50px] p-[5px] text-center">25,000–30,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>30–40</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>ห้องนั่งเล่นใหญ่</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>25,000–30,000</td>
                             </tr>
                             <tr className="border-b border-text/30">
-                                <td className="px-[50px] p-[5px] text-center">40–50</td>
-                                <td className="px-[50px] p-[5px] text-center">ห้องโถง/ออฟฟิศเล็ก</td>
-                                <td className="px-[50px] p-[5px] text-center">32,000–36,000</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>40–50</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>ห้องโถง/ออฟฟิศเล็ก</td>
+                                <td className={`
+                                    px-[50px] p-[5px] text-center
+                                    max-[1190px]:px-[20px]
+                                    max-[550px]:px-[5px] 
+                                `}>32,000–36,000</td>
                             </tr>
                         </tbody>
                     </table>
@@ -247,11 +460,16 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 justify-center mt-[10px]">
-                    <CircleAlert color="red"/>
+                    <div>
+                        <CircleAlert color="red"/>
+                    </div>
                     <p className="text-red-500 text-[15px]">หมายเหตุ: ข้อมูลที่ได้จากการคำนวณนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น ปัจจัยอื่น ๆ เช่น ความสูงเพดาน, จำนวนคน, และทิศทางแดด อาจทำให้ต้องเพิ่มขนาด BTU ครับ</p>
                 </div>
             </div>
-            <div id="contact-us" className="mt-[100px]">
+            <div id="contact-us" className={`
+                mt-[100px]
+                max-[655px]:mt-[50px]
+            `}>
                 <Footer/>
             </div>
         </div>
