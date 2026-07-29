@@ -97,7 +97,7 @@ export default function MainMenu() {
                     max-[730]:block
                 `}>
                     <div onClick={() => clickMenu()} className="cursor-pointer">
-                        <Menu/>
+                        <Menu color="var(--blue-1)"/>
                     </div>
                 </div>
             </div>
