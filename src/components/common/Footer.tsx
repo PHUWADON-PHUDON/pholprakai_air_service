@@ -84,7 +84,7 @@ export default function Footer() {
                         <div className="w-full">
                             <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#126bfe] w-full p-[8px_10px] rounded-[30px]">
                                 <FaceBook color="white"/>
-                                <p className="text-white">FaceBook</p>
+                                <a href="https://www.facebook.com/profile.php?id=61588541855926&locale=th_TH" target="_blank" rel="noopener noreferrer" className="text-white">FaceBook</a>
                             </div>
                             <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#ff0033] w-full p-[8px_10px] rounded-[30px]">
                                 <YouTube color="white"/>
@@ -92,7 +92,7 @@ export default function Footer() {
                             </div>
                             <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#ffff] w-full p-[8px_10px] rounded-[30px]">
                                 <TikTok color="white"/>
-                                <p className="text-black">TikTok</p>
+                                <a href="https://www.tiktok.com/@tumair_chonburi" target="_blank" rel="noopener noreferrer" className="text-black">TikTok</a>
                             </div>
                         </div>
                     </div>

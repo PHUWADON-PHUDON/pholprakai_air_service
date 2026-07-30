@@ -20,6 +20,12 @@ export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSlide
                 onBeforeSlide={(index) => setCurrentIndex(index)}
                 autoPlay
                 slideInterval={autoPlayDelay}
+                renderItem={(item) => (
+                    <img
+                        src={item.original}
+                        className="w-full object-cover"
+                    />
+                )}
                 renderLeftNav={(onClick, disabled) => (
                     <button
                         type="button"

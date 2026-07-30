@@ -146,22 +146,24 @@ export default function Home() {
                             max-[430px]:flex-col max-[430px]:items-center
                         `}>
                             <div>
-                                <button 
-                                    type="button"
+                                <a 
+                                    href="https://line.me/R/ti/p/@064pjnra"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="flex items-center justify-center gap-2 bg-green w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-green/90"
                                 >
                                     <Chat color="white"/>
                                     <p className="text-white font-bold">ปรึกษาผ่าน ไลน์</p>
-                                </button>
+                                </a>
                             </div>
                             <div>
-                                <button 
-                                    type="button"
+                                <a 
+                                    href="tel:0982671789"
                                     className="flex items-center justify-center gap-1 outline-2 outline-text/50 w-[180px] p-[8px_10px] rounded-[6px] cursor-pointer hover:bg-black/5"
                                 >
                                     <Phone color="var(--text)"/>
                                     <p className="font-bold">โทรปรึกษา</p>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -187,7 +189,7 @@ export default function Home() {
             </div>
             <div className="mt-[50px] mb-[25px] h-[40px]">
                 <div className="absolute left-0 w-[calc(100dvw_-_5px)] overflow-hidden">
-                    <ImageMarquee images={imagesLogo} speed={150}/>
+                    <ImageMarquee images={imagesLogo} speed={50}/>
                 </div>
             </div>
             <div id="service" className={`

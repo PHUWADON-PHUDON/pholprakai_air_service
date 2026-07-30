@@ -1,82 +1,23 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { MenuList } from "@/lib/utils/MenuList";
 import Menu from "../icons/Menu";
 
 export default function MainMenu() {
-    const bgMobileMenu = useRef<HTMLDivElement | null>(null);
-    const navMobileMenu = useRef<HTMLDivElement | null>(null);
-    const timeoutRefs = useRef<(NodeJS.Timeout | undefined)[]>([]);
-    const isToggle = useRef(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const clickMenu = () => {
-        let time1: NodeJS.Timeout | undefined
-        let time2: NodeJS.Timeout | undefined
-        let time3: NodeJS.Timeout | undefined
-
-        timeoutRefs.current.forEach((t) => t && clearTimeout(t));
-        timeoutRefs.current = [];
-
-        if (!isToggle.current) {
-            time1 = setTimeout(() => {
-                if (!bgMobileMenu.current) return;
-                bgMobileMenu.current.style.display = "block";
-            },10);
-    
-            time2 = setTimeout(() => {
-                if (!bgMobileMenu.current) return;
-                bgMobileMenu.current.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-            },20);
-    
-            time3 = setTimeout(() => {
-                if (!navMobileMenu.current) return;
-                navMobileMenu.current.style.transform = "translateX(200px)";
-            },30);
-
-            isToggle.current = true;
-        }
-        else if (isToggle.current) {
-            time1 = setTimeout(() => {
-                if (!bgMobileMenu.current) return;
-                if (!navMobileMenu.current) return;
-                navMobileMenu.current.style.transform = "translateX(-200px)";
-                bgMobileMenu.current.style.backgroundColor = "rgba(0, 0, 0, 0.0)";
-            },10);
-
-            time2 = setTimeout(() => {
-                if (!bgMobileMenu.current) return;
-                bgMobileMenu.current.style.display = "none";
-            },200);
-
-            isToggle.current = false;
-        }
-
-        timeoutRefs.current = [time1, time2, time3];
-    }
+    const toggleMenu = () => setIsOpen((prev) => !prev);
+    const closeMenu = () => setIsOpen(false);
 
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 730) {
-                if (!bgMobileMenu.current) return;
-                if (!navMobileMenu.current) return;
-
-                timeoutRefs.current.forEach((t) => t && clearTimeout(t));
-                timeoutRefs.current = [];
-
-                navMobileMenu.current.style.transform = "translateX(-200px)";
-                bgMobileMenu.current.style.backgroundColor = "rgba(0, 0, 0, 0.0)";
-                bgMobileMenu.current.style.display = "none";
-
-                isToggle.current = false;
+                setIsOpen(false);
             }
         };
 
         window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-            timeoutRefs.current.forEach((t) => clearTimeout(t));
-        };
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     return(
@@ -96,19 +37,26 @@ export default function MainMenu() {
                     hidden
                     max-[730]:block
                 `}>
-                    <div onClick={() => clickMenu()} className="cursor-pointer">
+                    <div onClick={() => toggleMenu()} className="cursor-pointer">
                         <Menu color="var(--blue-1)"/>
                     </div>
                 </div>
             </div>
-            <div onClick={() => clickMenu()} ref={bgMobileMenu} className={`
-                hidden fixed top-0 left-0 w-full h-full overflow-hidden duration-200
-            `}>
-                <div ref={navMobileMenu} onClick={(e) => e.stopPropagation()} className={`
-                    w-[200px] translate-x-[-200px] bg-blue-2 h-full p-[20px] flex flex-col gap-[20px] duration-200
-                `}>
+            <div>
+                <div
+                    onClick={closeMenu}
+                    className={`fixed inset-0 z-40 transition-colors duration-200 ${
+                        isOpen ? "bg-black/50 pointer-events-auto" : "bg-black/0 pointer-events-none"
+                    }`}
+                />
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={`fixed top-0 left-0 h-full w-[200px] z-50 bg-blue-2 p-[20px] flex flex-col gap-[20px] transition-transform duration-200 ${
+                        isOpen ? "translate-x-0" : "-translate-x-[200px]"
+                    }`}
+                >
                     {MenuList.map((item, i) => (
-                        <a key={i} href={item.path} className="font-bold text-white">
+                        <a key={i} href={item.path} className="font-bold text-white" onClick={closeMenu}>
                             {item.name}
                         </a>
                     ))}

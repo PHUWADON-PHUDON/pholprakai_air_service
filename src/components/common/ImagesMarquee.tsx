@@ -1,43 +1,30 @@
 "use client";
+import Marquee from "react-fast-marquee";
 
 interface MarqueeProps {
     images: string[];
-    speed?: number; // วินาที ยิ่งน้อยยิ่งเร็ว
+    speed?: number;
 }
 
 export default function ImageMarquee({ images, speed = 30 }: MarqueeProps) {
     return (
-        <div className="relative w-full overflow-hidden">
-            <div
-                className="flex gap-20 w-max animate-marquee"
-                style={{ animationDuration: `${speed}s` }}
-            >
-                {/* set แรก */}
-                {images.map((src, i) => (
-                    <img
-                        key={`a-${i}`}
-                        src={`./logo/${src}`}
-                        alt=""
-                        className={`
-                            h-[40px] object-cover rounded-[12px] flex-shrink-0
-                            max-[600px]:h-[30px]
-                        `}
-                    />
-                ))}
-                {/* set ที่สอง (clone) — ต่อท้ายให้เลื่อนวนต่อเนื่องไม่มีรอยต่อ */}
-                {images.map((src, i) => (
-                    <img
-                        key={`b-${i}`}
-                        src={`./logo/${src}`}
-                        alt=""
-                        className={`
-                            h-[40px] object-cover rounded-[12px] flex-shrink-0
-                            max-[600px]:h-[30px]
-                            max-[400px]:h-[20px]
-                        `}
-                    />
-                ))}
-            </div>
-        </div>
+        <Marquee
+            speed={speed}
+            gradient={false}
+            className="gap-20"
+        >
+            {images.map((src, i) => (
+                <img
+                    key={i}
+                    src={`./logo/${src}`}
+                    alt=""
+                    className={`
+                        h-[40px] mr-[80px]
+                        max-[600px]:h-[30px]
+                        max-[400px]:h-[20px]
+                    `}
+                />
+            ))}
+        </Marquee>
     );
 }
