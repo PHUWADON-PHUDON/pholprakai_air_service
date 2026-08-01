@@ -6,15 +6,23 @@ import "react-image-gallery/styles/image-gallery.css";
 interface ImageSliderProps {
     images: string[];
     autoPlayDelay?: number;
+    altPrefix?: string;
 }
 
-export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSliderProps) {
+export default function ImageSlider({
+    images,
+    autoPlayDelay = 3000,
+    altPrefix = "ผลงานบริการแอร์ พลประกาย แอร์ เซอร์วิส ชลบุรี",
+}: ImageSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
         <div className="relative rounded-[12px] overflow-hidden">
             <ImageGallery
-                items={images.map((src) => ({ original: `/slide_images/${src}` }))}
+                items={images.map((src, index) => ({
+                    original: `/slide_images/${src}`,
+                    originalAlt: `${altPrefix} รูปที่ ${index + 1}`,
+                }))}
                 showPlayButton={false}
                 showFullscreenButton={false}
                 onBeforeSlide={(index) => setCurrentIndex(index)}
@@ -23,6 +31,11 @@ export default function ImageSlider({ images, autoPlayDelay = 3000 }: ImageSlide
                 renderItem={(item) => (
                     <img
                         src={item.original}
+                        alt={item.originalAlt || altPrefix}
+                        width={602}
+                        height={268}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full object-cover"
                     />
                 )}

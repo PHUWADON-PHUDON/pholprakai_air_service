@@ -22,7 +22,7 @@ export default function Footer() {
                         flex items-center gap-1 justify-self-start
                     `}>
                         <Snowflake color="white"/>
-                        <h1 className="text-[25px] font-bold text-white">พลประกาย แอร์ เซอร์วิส</h1>
+                        <p className="text-[25px] font-bold text-white">พลประกาย แอร์ เซอร์วิส</p>
                     </div>
                     <div className={`
                         mt-[10px]

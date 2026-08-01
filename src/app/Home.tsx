@@ -11,6 +11,7 @@ import Btucal from "@/components/common/Btucal";
 import CircleAlert from "@/components/icons/CircleAlert";
 import Footer from "@/components/common/Footer";
 import Verify from "@/components/icons/Verify";
+import Image from "next/image";
 
 export default function Home() {
     const images = [
@@ -26,8 +27,9 @@ export default function Home() {
     ];
 
     const activityImages = [
+        "308cd3ba-f1db-4194-8144-76d411e4f54a.jpg","681d68ce-41fe-40f8-a952-1fca57dd75b6.jpg",
         "706851728_122114723973284728_5174665860920710053_n.jpg","710245564_122115138093284728_6495996020355849104_n.jpg",
-        "718398127_122115959535284728_7594643191217718466_n.jpg","727757546_122117145357284728_4849607878032151604_n.jpg",
+        "718398127_122115959535284728_7594643191217718466_n.jpg",
         "733195594_122117903529284728_4032935321641781855_n.jpg","646323612_122103005679284728_1432091657375188475_n.jpg",
         "646351071_122103006075284728_3095514218436899517_n.jpg","647517028_122103005631284728_5619330593670024989_n.jpg"
     ];
@@ -45,13 +47,16 @@ export default function Home() {
                 max-[480px]:pt-[120px] max-[480px]:pb-[30px]
                 max-[420px]:pt-[80px]
             `}>
-                <img 
-                    src="./wave_background_pattern.svg" alt="" 
+                <div
+                    aria-hidden="true"
                     className={`
-                        absolute block w-full h-full object-cover border scale-[1.1] top-[95px] opacity-50 left-0 z-[-1]
+                        absolute block w-full h-full border scale-[1.1] top-[95px] opacity-50 left-0 z-[-1]
                         max-[420px]:top-[0px]
                     `}
                     style={{
+                        backgroundImage: "url('/wave_background_pattern.svg')",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
                         maskImage: "linear-gradient(to right, transparent 0%, black 70%, transparent 100%)",
                         WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 70%, transparent 100%)"
                     }}
@@ -174,10 +179,15 @@ export default function Home() {
                     max-[750px]:hidden
                 `}>
                 </div>
-                <img 
-                    src="../person.png" alt=""
+                <Image
+                    src="/person.png"
+                    alt=""
+                    width={350}
+                    height={525}
+                    loading="lazy"
+                    sizes="(max-width: 750px) 0px, 350px"
                     className={`
-                        w-[350px] absolute right-[150px] bottom-[-80px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
+                        w-[350px] h-auto absolute right-[150px] bottom-[-80px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
                         max-[1215px]:right-[20px]
                         max-[860px]:right-[0px]
                         max-[750px]:hidden
@@ -196,10 +206,13 @@ export default function Home() {
                 relative mt-[50px] mb-[25px] h-[450px] p-[20px] flex flex-col items-center overflow-hidden
                 max-[625px]:h-full
             `}>
-                <img 
-                    src="./wave_background_pattern.svg" alt="" 
-                    className="absolute top-0 block w-full h-full object-cover border scale-[1.1] opacity-50 left-0 z-[-1]"
+                <div
+                    aria-hidden="true"
+                    className="absolute top-0 block w-full h-full border scale-[1.1] opacity-50 left-0 z-[-1]"
                     style={{
+                        backgroundImage: "url('/wave_background_pattern.svg')",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
                         maskImage: "linear-gradient(to left, transparent 0%, black 70%, transparent 100%)",
                         WebkitMaskImage: "linear-gradient(to left, transparent 0%, black 70%, transparent 100%)"
                     }}
@@ -270,10 +283,15 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <img 
-                        src="../person2.png" alt=""
+                    <Image
+                        src="/person2.png"
+                        alt=""
+                        width={400}
+                        height={600}
+                        loading="lazy"
+                        sizes="(max-width: 955px) 0px, (max-width: 1000px) 350px, 400px"
                         className={`
-                            w-[400px] absolute left-[150px] bottom-[-150px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
+                            w-[400px] h-auto absolute left-[150px] bottom-[-150px] drop-shadow-[20px_20px_25px_rgba(0,0,0,0.5)]
                             max-[1285px]:left-[80px]
                             max-[1160px]:left-[0px]
                             max-[1000px]:w-[350px] max-[1000px]:bottom-[-80px]

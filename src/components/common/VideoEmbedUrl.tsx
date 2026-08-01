@@ -65,6 +65,7 @@ function YoutubeEmbed({ url }: { url: string }) {
                 className="absolute inset-0 w-full h-full rounded-[12px]"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 title="YouTube video"
             />
         </div>
@@ -79,6 +80,7 @@ function FacebookEmbed({ url }: { url: string }) {
                 className="absolute inset-0 w-full h-full rounded-[12px]"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 allowFullScreen
+                loading="lazy"
                 title="Facebook video"
             />
         </div>
