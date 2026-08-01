@@ -1,36 +1,39 @@
 "use client";
+import Marquee from "react-fast-marquee";
 
 interface MarqueeProps {
     images: string[];
-    speed?: number; // วินาที ยิ่งน้อยยิ่งเร็ว
+    speed?: number;
+    altPrefix?: string;
 }
 
-export default function ImageMarquee({ images, speed = 30 }: MarqueeProps) {
+export default function ImageMarquee({
+    images,
+    speed = 30,
+    altPrefix = "โลโก้แบรนด์แอร์ที่ให้บริการ",
+}: MarqueeProps) {
     return (
-        <div className="relative w-full overflow-hidden">
-            <div
-                className="flex gap-20 w-max animate-marquee"
-                style={{ animationDuration: `${speed}s` }}
-            >
-                {/* set แรก */}
-                {images.map((src, i) => (
-                    <img
-                        key={`a-${i}`}
-                        src={`./logo/${src}`}
-                        alt=""
-                        className="h-[40px] object-cover rounded-[12px] flex-shrink-0"
-                    />
-                ))}
-                {/* set ที่สอง (clone) — ต่อท้ายให้เลื่อนวนต่อเนื่องไม่มีรอยต่อ */}
-                {images.map((src, i) => (
-                    <img
-                        key={`b-${i}`}
-                        src={`./logo/${src}`}
-                        alt=""
-                        className="h-[40px] object-cover rounded-[12px] flex-shrink-0"
-                    />
-                ))}
-            </div>
-        </div>
+        <Marquee
+            speed={speed}
+            gradient={false}
+            className="gap-20"
+        >
+            {images.map((src, i) => (
+                <img
+                    key={i}
+                    src={`./logo/${src}`}
+                    alt={`${altPrefix} ${i + 1}`}
+                    width={160}
+                    height={40}
+                    loading="lazy"
+                    decoding="async"
+                    className={`
+                        h-[40px] w-auto mr-[80px]
+                        max-[600px]:h-[30px]
+                        max-[400px]:h-[20px]
+                    `}
+                />
+            ))}
+        </Marquee>
     );
 }

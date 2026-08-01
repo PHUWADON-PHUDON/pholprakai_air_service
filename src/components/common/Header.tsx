@@ -9,10 +9,16 @@ export default function Header() {
         <header className="fixed left-0 w-full z-100">
             <div>
                 <div className="px-[20px] bg-white">
-                    <div className="mx-auto max-w-[1440px] p-[20px_0px_10px_0px] grid grid-cols-2 items-center justify-items-center">
+                    <div className={`
+                        mx-auto max-w-[1440px] p-[20px_0px_10px_0px] grid grid-cols-2 items-center justify-items-center
+                        max-[730px]:grid-cols-[5fr_1fr] 
+                    `}>
                         <div className="flex items-center gap-1 justify-self-start">
                             <Snowflake color="var(--blue-1)"/>
-                            <h1 className="text-2xl font-bold text-blue-1">พลประกาย แอร์ เซอร์วิส</h1>
+                            <h1 className={`
+                                text-2xl font-bold text-blue-1
+                                max-[450px]:text-[20px]
+                            `}>พลประกาย แอร์ เซอร์วิส</h1>
                         </div>
                         <div className="justify-self-end">
                             <MainMenu/>
@@ -23,17 +29,35 @@ export default function Header() {
                     </div>
 
                 </div>
-                <div className="flex justify-between py-[5px] px-[20px] bg-blue-2">
+                <div className={`
+                    flex justify-between py-[5px] px-[20px] bg-blue-2
+                    max-[420px]:hidden
+                `}>
                     <div className="mx-auto w-[1440px] flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                        <div className={`
+                            flex items-center gap-2
+                            max-[730px]:justify-center max-[730px]:w-full
+                        `}>
                             <Phone color="white"/>
-                            <p className="text-white">โทร: 098-267-1789</p>
+                            <p className={`
+                                text-white
+                                max-[830px]:text-[14px]
+                            `}>โทร: 098-267-1789</p>
                             <Chat color="var(--green)"/>
-                            <p className="text-green">ไลน์: @064pjnra (มี @ ด้านหน้า)</p>
+                            <p className={`
+                                text-green
+                                max-[830px]:text-[14px] 
+                            `}>ไลน์: @064pjnra (มี @ ด้านหน้า)</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className={`
+                            flex items-center gap-2
+                            max-[730px]:hidden
+                        `}>
                             <Verify color="white"/>
-                            <p className="text-white">ผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ</p>
+                            <p className={`
+                                text-white
+                                max-[830px]:text-[14px]
+                            `}>ผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ</p>
                         </div>
                     </div>
                 </div>

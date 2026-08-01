@@ -19,16 +19,16 @@
   --color-blue-1: var(--blue-1);
   --color-blue-2: var(--blue-2);
   --color-green: var(--green);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--line-font-th);
+  --font-mono: var(--line-font-th);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 ::-webkit-scrollbar {
   width: 5px !important;
@@ -48,7 +48,7 @@ html {
 }
 
 body {
-  background: var(--foreground);
+  background: var(--background);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
 }
