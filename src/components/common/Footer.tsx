@@ -29,9 +29,10 @@ export default function Footer() {
                         max-[655px]:flex max-[655px]:justify-center max-[655px]:flex-wrap
                     `}>
                         <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ติดตั้งแอร์ใหม่</span>
+                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ล้างแอร์</span>
                         <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ย้ายแอร์</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">เช็ครั่ว เติมน้ำยา</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ตรวจเช็ค</span>
+                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ตรวจเช็คระบบน้ำยา</span>
+                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ซ่อมแอร์</span>
                         <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">วิเคราะห์อาการเสีย</span>
                     </div>
                     <div className={`
@@ -42,15 +43,17 @@ export default function Footer() {
                         <span className="text-white">ชลบุรี: </span>
                         <span className="text-white">เมืองชลบุรี</span>
                         <span className="text-white">เสม็ด</span>
-                        <span className="text-white">บางแสน</span>
+                        <span className="text-white">บ้านปึก</span>
                         <span className="text-white">ห้วยกะปิ</span>
-                        <span className="text-white">อมตะ</span>
-                        <span className="text-white">ศรีราชา</span>
+                        <span className="text-white">อ่างศิลา</span>
+                        <span className="text-white">บ้านสวน</span>
+                        <span className="text-white">บางปลาสร้อย</span>
+                        <span className="text-white">บางทราย</span>
                         <span className="text-white">และใกล้เคียง</span>
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
-                    <p className="text-[20px] font-bold text-white mt-[10px]">ติดต่อ</p>
+                    <h2 className="text-[20px] font-bold text-white mt-[10px]">ติดต่อ</h2>
                     <div className={`
                         max-[655px]:flex max-[655px]:justify-center max-[655px]:flex-wrap max-[655px]:gap-2
                     `}>
@@ -80,7 +83,7 @@ export default function Footer() {
                     max-[655px]:col-span-1
                 `}>
                     <div className="flex flex-col items-center">
-                        <p className="text-[20px] font-bold text-white mt-[10px]">ติดตาม</p>
+                        <h2 className="text-[20px] font-bold text-white mt-[10px]">ติดตาม</h2>
                         <div className="w-full">
                             <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#126bfe] w-full p-[8px_10px] rounded-[30px]">
                                 <FaceBook color="white"/>
