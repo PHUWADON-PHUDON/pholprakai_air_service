@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import ImageGallery from "react-image-gallery";
+import MasonryGallery from "./ActivityMasonry";
 import "react-image-gallery/styles/image-gallery.css";
 
 interface ImageSliderProps {
@@ -151,7 +152,7 @@ export default function ImagesActivity({
             <div className={`
                 max-[640px]:hidden
             `}>
-                <div className={`
+                {/* <div className={`
                     columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-3
                 `}>
                     {images.map((src, i) => (
@@ -170,7 +171,14 @@ export default function ImagesActivity({
                             decoding="async"
                         />
                     ))}
-                </div>
+                </div> */}
+                <MasonryGallery
+                    images={images}
+                    showAll={showAll}
+                    previewCountDesktop={PREVIEW_COUNT_DESKTOP}
+                    previewCountMobile={PREVIEW_COUNT_MOBILE}
+                    altPrefix="ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี"
+                />
                 <button 
                     type="button" 
                     onClick={() => setShowAll(!showAll)}
