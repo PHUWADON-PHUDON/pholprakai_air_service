@@ -27,11 +27,10 @@ export default function Home() {
     ];
 
     const activityImages = [
-        "308cd3ba-f1db-4194-8144-76d411e4f54a.jpg","681d68ce-41fe-40f8-a952-1fca57dd75b6.jpg",
-        "706851728_122114723973284728_5174665860920710053_n.jpg","710245564_122115138093284728_6495996020355849104_n.jpg",
-        "718398127_122115959535284728_7594643191217718466_n.jpg",
-        "733195594_122117903529284728_4032935321641781855_n.jpg","646323612_122103005679284728_1432091657375188475_n.jpg",
-        "646351071_122103006075284728_3095514218436899517_n.jpg","647517028_122103005631284728_5619330593670024989_n.jpg"
+        "681d68ce-41fe-40f8-a952-1fca57dd75b6.jpg","308cd3ba-f1db-4194-8144-76d411e4f54a.jpg",
+        "706851728_122114723973284728_5174665860920710053_n.jpg","718398127_122115959535284728_7594643191217718466_n.jpg",
+        "710245564_122115138093284728_6495996020355849104_n.jpg","733195594_122117903529284728_4032935321641781855_n.jpg",
+        "727757546_122117145357284728_4849607878032151604_n.jpg"
     ];
 
     const videoUrl = [
@@ -65,18 +64,24 @@ export default function Home() {
                     p-[20px]
                     max-[480px]:flex max-[480px]:flex-col max-[480px]:items-center
                 `}>
-                    <p className={`
-                        text-[40px]
-                        max-[860px]:text-[30px]
-                        max-[480px]:text-[25px]
-                        max-[395px]:text-[20px]
-                    `}>ร้านแอร์ชลบุรี</p>
-                    <p className={`
-                        text-[50px] font-bold text-blue-2
-                        max-[860px]:text-[40px]
-                        max-[480px]:text-[35px]
-                        max-[395px]:text-[30px]
-                    `}>พลประกาย แอร์ เซอร์วิส</p>
+                    <h1>
+                        <span className={`
+                            text-[40px] block
+                            max-[860px]:text-[30px]
+                            max-[480px]:text-[25px] max-[480px]:text-center
+                            max-[395px]:text-[20px]
+                        `} >
+                            ร้านแอร์ชลบุรี
+                        </span>
+                        <span className={`
+                            text-[50px] block font-bold text-blue-2
+                            max-[860px]:text-[40px]
+                            max-[480px]:text-[35px] max-[480px]:text-center
+                            max-[395px]:text-[30px]
+                        `} >
+                            พลประกาย แอร์ เซอร์วิส
+                        </span>
+                    </h1>
                     <div className={`
                         max-[480px]:flex max-[480px]:justify-center max-[480px]:flex-wrap
                     `}>
@@ -87,15 +92,23 @@ export default function Home() {
                         <span className={`
                             mr-[10px] mt-[10px] text-[20px]
                             max-[430px]:text-[16px]
+                        `}>ล้างแอร์</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
                         `}>ย้ายแอร์</span>
                         <span className={`
                             mr-[10px] mt-[10px] text-[20px]
                             max-[430px]:text-[16px]
-                        `}>เช็ครั่ว เติมน้ำยา</span>
+                        `}>ตรวจเช็คระบบน้ำยา</span>
                         <span className={`
                             mr-[10px] mt-[10px] text-[20px]
                             max-[430px]:text-[16px]
-                        `}>ตรวจเช็ค วิเคราะห์อาการเสีย</span>
+                        `}>ซ่อมแอร์</span>
+                        <span className={`
+                            mr-[10px] mt-[10px] text-[20px]
+                            max-[430px]:text-[16px]
+                        `}>วิเคราะห์อาการเสีย</span>
                         <span className={`
                             mr-[10px] mt-[10px] text-[20px]
                             max-[430px]:text-[16px]
@@ -135,16 +148,6 @@ export default function Home() {
                         max-w-[370px]
                         max-[730px]:mt-[30px]
                     `}>
-                        <div className={`
-                            flex items-center gap-2 p-[2px_10px] rounded-2xl justify-center hidden
-                            max-[730px]:flex
-                        `}>
-                            <Verify color="#d08700"/>
-                            <p className={`
-                                text-yellow-600
-                                max-[385px]:text-[14px]
-                            `}>ผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ</p>
-                        </div>
                         <div className={`
                             mt-[30px] flex gap-3
                             max-[730px]:mt-[10px]
@@ -194,6 +197,16 @@ export default function Home() {
                     `}
                 />
             </div>
+            <div 
+                style={{
+                    background: "linear-gradient(to right, transparent 0%, #fefce8 50%, transparent 100%)",
+                }}
+                className="p-[8px_20px] flex justify-center items-center flex-wrap gap-1 bg-yellow-50">
+                <Verify color="#d08700"/>
+                <p className={`
+                    text-yellow-600 text-center
+                `}>ผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ สาขาช่างเครื่องปรับอากาศ และ ช่างไฟฟ้าภายในอาคาร</p>
+            </div>
             <div className="my-[25px] px-[20px]">
                 <ImageSlider images={images} autoPlayDelay={3000}/>
             </div>
@@ -217,7 +230,7 @@ export default function Home() {
                         WebkitMaskImage: "linear-gradient(to left, transparent 0%, black 70%, transparent 100%)"
                     }}
                 />
-                <p className="text-[25px] font-bold">บริการของเรา</p>
+                <h2 className="text-[25px] font-bold">บริการของเรา</h2>
                 <div className={`
                     mt-[50px] h-full self-end
                     max-[955px]:self-center
@@ -227,14 +240,17 @@ export default function Home() {
                         h-full flex gap-[20px]
                         max-[625px]:flex-col
                     `}>
-                        <div className="p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px]">
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ล้างแอร์</p>
-                            </div>
+                        <div className={`
+                            p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px] w-[280px]
+                            max-[625px]:w-full
+                        `}>
                             <div className="mb-[10px] flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
                                 <p className="text-[18px]">ติดตั้งแอร์ใหม่</p>
+                            </div>
+                            <div className="mb-[10px] flex items-center gap-2">
+                                <Toolbox color="var(--text)"/>
+                                <p className="text-[18px]">ล้างแอร์</p>
                             </div>
                             <div className="mb-[10px] flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
@@ -242,15 +258,22 @@ export default function Home() {
                             </div>
                             <div className="mb-[10px] flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">เช็ครั่ว เติมน้ำยา</p>
+                                <p className="text-[18px]">ซ่อมแอร์</p>
                             </div>
                             <div className="mb-[10px] flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ตรวจเช็ค วิเคราะห์อาการเสีย</p>
+                                <p className="text-[18px]">ตรวจเช็คระบบน้ำยา</p>
+                            </div>
+                            <div className="mb-[10px] flex items-center gap-2">
+                                <Toolbox color="var(--text)"/>
+                                <p className="text-[18px]">วิเคราะห์อาการเสีย</p>
                             </div>
                         </div>
 
-                        <div className="p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px]">
+                        <div className={`
+                            p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px] w-[280px]
+                            max-[625px]:w-full
+                        `}>
                             <div className="mb-[10px] flex items-center gap-2">
                                 <span className="flex-shrink-0 w-5 h-5 text-[20px] rounded-full text-green flex items-center justify-center text-[12px]">
                                     ✓
@@ -301,31 +324,33 @@ export default function Home() {
                 </div>
             </div>
             <div className="mt-[50px] mb-[25px] p-[20px]">
-                <p className="text-[25px] font-bold text-center">พื้นที่ให้บริการ</p>
+                <h2 className="text-[25px] font-bold text-center">พื้นที่ให้บริการ</h2>
                 <div className="mt-[20px] flex justify-center flex-wrap">
-                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">เมืองชลบุรี</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">อำเภอเมืองชลบุรี</span>
                     <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">เสม็ด</span>
-                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">บางแสน</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">บ้านปึก</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">อ่างศิลา</span>
                     <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">ห้วยกะปิ</span>
-                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">อมตะ</span>
-                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">ศรีราชา</span>
-                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">และใกล้เคียง</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">บ้านสวน</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">บางปลาสร้อย</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">บางทราย</span>
+                    <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">และพื้นที่ใกล้เคียง</span>
                 </div>
             </div>
             <div id="workings" className="mt-[25px] mb-[25px] p-[20px]">
-                <p className="text-[25px] font-bold text-center">ภาพกิจกรรมการทำงาน</p>
+                <h2 className="text-[25px] font-bold text-center">ภาพกิจกรรมการทำงาน</h2>
                 <div className="mt-[20px]">
                     <ImagesActivity images={activityImages}/>
                 </div>
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">
-                <p className="text-[25px] font-bold text-center">วิดีโอการทำงาน</p>
+                <h2 className="text-[25px] font-bold text-center">วิดีโอการทำงาน</h2>
                 <div className="mt-[20px]">
                     <VideoEmbedUrl urls={videoUrl}/>
                 </div>
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">
-                <p className="text-[25px] font-bold text-center">คำนวณ BTU</p>
+                <h2 className="text-[25px] font-bold text-center">คำนวณ BTU</h2>
                 <div className={`
                     mt-[20px] flex items-center gap-[20px]
                     max-[1005px]:flex-col    
