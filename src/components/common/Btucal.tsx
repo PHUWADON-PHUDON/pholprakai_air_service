@@ -9,11 +9,11 @@ const sunFactorOptions = [
 ];
 
 export default function Btucal() {
-    const [width, setWidth] = useState(0);
-    const [length, setLength] = useState(0);
+    const [width, setWidth] = useState("0");
+    const [length, setLength] = useState("0");
     const [sunFactor, setSunFactor] = useState(800);
 
-    const area = width * length;
+    const area = Number(width) * Number(length);
     const btu = useMemo(() => Math.round((area * sunFactor) / 500) * 500, [area, sunFactor]);
 
     return (
@@ -24,9 +24,8 @@ export default function Btucal() {
                     <input
                         type="number"
                         value={width}
-                        onChange={(e) => setWidth(Number(e.target.value))}
-                        min={1}
-                        step={0.1}
+                        onChange={(e) => setWidth(e.target.value)}
+                        min={0}
                         className="w-full bg-white/5 border border-text/20 rounded-[8px] px-3 py-2 text-[14px] focus:outline-none"
                     />
                 </div>
@@ -35,9 +34,8 @@ export default function Btucal() {
                     <input
                         type="number"
                         value={length}
-                        onChange={(e) => setLength(Number(e.target.value))}
-                        min={1}
-                        step={0.1}
+                        onChange={(e) => setLength(e.target.value)}
+                        min={0}
                         className="w-full bg-white/5 border border-text/20 rounded-[8px] px-3 py-2 text-[14px] focus:outline-none"
                     />
                 </div>
