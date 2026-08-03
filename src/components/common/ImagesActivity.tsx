@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import ImageGallery from "react-image-gallery";
+import MasonryGallery from "./ActivityMasonry";
 import "react-image-gallery/styles/image-gallery.css";
 
 interface ImageSliderProps {
@@ -9,6 +10,9 @@ interface ImageSliderProps {
     altPrefix?: string;
 }
 
+const PREVIEW_COUNT_DESKTOP = 8;
+const PREVIEW_COUNT_MOBILE = 6;
+
 export default function ImagesActivity({
     images,
     autoPlayDelay = 3000,
@@ -16,6 +20,7 @@ export default function ImagesActivity({
 }: ImageSliderProps) {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [selectIndex, setSelectIndex] = useState(0);
+    const [showAll, setShowAll] = useState(false);
     const galleryRef = useRef<any>(null);
 
     const handleImageClick = (index: number) => {
@@ -113,28 +118,31 @@ export default function ImagesActivity({
                 max-[640]:block
             `}>
                 <div>
-                    <img onClick={() => handleImageClick(0)} src={`./activity/${images[0]}`} loading="lazy" alt={altPrefix} className="rounded-[4px]" />
+                    <img onClick={() => handleImageClick(0)} src={`/activity/${images[0]}`} loading="lazy" decoding="async" alt={`${altPrefix} รูปที่ ${1}`} className="rounded-[4px]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2 mt-[8px]">
                     <img 
                         onClick={() => handleImageClick(1)}
-                        src={`./activity/${images[1]}`} 
-                        alt={altPrefix}
+                        src={`/activity/${images[1]}`} 
+                        alt={`${altPrefix} รูปที่ ${2}`}
                         loading="lazy"
+                        decoding="async"
                         className="aspect-4/3 rounded-[4px] object-cover" 
                     />
                     <img 
                         onClick={() => handleImageClick(2)}
-                        src={`./activity/${images[2]}`}
-                        alt={altPrefix}
+                        src={`/activity/${images[2]}`}
+                        alt={`${altPrefix} รูปที่ ${3}`}
                         loading="lazy"
+                        decoding="async"
                         className="aspect-4/3 rounded-[4px] object-cover" 
                     />
                     <img 
                         onClick={() => handleImageClick(3)}
-                        src={`./activity/${images[3]}`} 
-                        alt={altPrefix}
+                        src={`/activity/${images[3]}`} 
+                        alt={`${altPrefix} รูปที่ ${4}`}
                         loading="lazy"
+                        decoding="async"
                         className="aspect-4/3 rounded-[4px] object-cover" 
                     />
                     <div onClick={() => handleImageClick(4)} className="border-2 flex justify-center items-center border-text/20 text-text/50 rounded-[4px] cursor-pointer">เพิ่มเติม</div>
@@ -142,21 +150,42 @@ export default function ImagesActivity({
             </div>
 
             <div className={`
-                columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-3
-                max-[640]:hidden
+                max-[640px]:hidden
             `}>
-                {images.map((src, i) => (
-                    <img
-                        key={i}
-                        src={`./activity/${src}`}
-                        alt={`ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี รูปที่ ${i + 1}`}
-                        width={600}
-                        height={800}
-                        className="w-full rounded-[8px] mb-3 block hover:opacity-90 transition-opacity cursor-pointer"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                ))}
+                {/* <div className={`
+                    columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-3
+                `}>
+                    {images.map((src, i) => (
+                        <img
+                            key={i}
+                            src={`/activity/${src}`}
+                            alt={`ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี รูปที่ ${i + 1}`}
+                            width={600}
+                            height={800}
+                            className={`
+                                w-full rounded-[8px] mb-3 block hover:opacity-90 transition-opacity cursor-pointer
+                                ${!showAll && i >= PREVIEW_COUNT_DESKTOP ? "hidden" : ""}
+                                ${!showAll && i >= PREVIEW_COUNT_MOBILE && i < PREVIEW_COUNT_DESKTOP ? "max-[1024px]:hidden" : ""}
+                            `}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    ))}
+                </div> */}
+                <MasonryGallery
+                    images={images}
+                    showAll={showAll}
+                    previewCountDesktop={PREVIEW_COUNT_DESKTOP}
+                    previewCountMobile={PREVIEW_COUNT_MOBILE}
+                    altPrefix="ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี"
+                />
+                <button 
+                    type="button" 
+                    onClick={() => setShowAll(!showAll)}
+                    className="text-center w-full mt-[30px] text-blue-1 cursor-pointer"
+                >
+                    {showAll ? "แสดงน้อยลง":"แสดงรูปทั้งหมด"}
+                </button>
             </div>
         </>
     );

@@ -21,7 +21,7 @@ export default function ImageMarquee({
             {images.map((src, i) => (
                 <img
                     key={i}
-                    src={`./logo/${src}`}
+                    src={`/logo/${src}`}
                     alt={`${altPrefix} ${i + 1}`}
                     width={160}
                     height={40}
