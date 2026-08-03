@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import ImageGallery from "react-image-gallery";
 import MasonryGallery from "./ActivityMasonry";
+import ActivityImagesSlice from "./ActivityImagesSlice";
 import "react-image-gallery/styles/image-gallery.css";
 
 interface ImageSliderProps {
@@ -55,7 +56,7 @@ export default function ImagesActivity({
 
     return (
         <>
-            {isOpenModal && 
+            {/* {isOpenModal && 
                 <div className="fixed left-0 top-0 z-200 bg-black/50 w-full h-full p-[20px] flex justify-center items-center">
                     <button
                         type="button"
@@ -112,12 +113,12 @@ export default function ImagesActivity({
                         />
                     </div>
                 </div>
-            }
+            } */}
             <div className={`
                 hidden
                 max-[640]:block
             `}>
-                <div>
+                {/* <div>
                     <img onClick={() => handleImageClick(0)} src={`/activity/${images[0]}`} loading="lazy" decoding="async" alt={`${altPrefix} รูปที่ ${1}`} className="rounded-[4px]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2 mt-[8px]">
@@ -146,7 +147,8 @@ export default function ImagesActivity({
                         className="aspect-4/3 rounded-[4px] object-cover" 
                     />
                     <div onClick={() => handleImageClick(4)} className="border-2 flex justify-center items-center border-text/20 text-text/50 rounded-[4px] cursor-pointer">เพิ่มเติม</div>
-                </div>
+                </div> */}
+                <ActivityImagesSlice images={images}/>
             </div>
 
             <div className={`
