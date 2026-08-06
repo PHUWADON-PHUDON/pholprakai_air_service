@@ -85,18 +85,18 @@ export default function Footer() {
                     <div className="flex flex-col items-center">
                         <h2 className="text-[20px] font-bold text-white mt-[10px]">ติดตาม</h2>
                         <div className="w-full">
-                            <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#126bfe] w-full p-[8px_10px] rounded-[30px]">
+                            <a href="https://www.facebook.com/profile.php?id=61588541855926&locale=th_TH" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center mt-[10px] gap-2 bg-[#126bfe] w-full p-[8px_10px] rounded-[30px]">
                                 <FaceBook color="white"/>
-                                <a href="https://www.facebook.com/profile.php?id=61588541855926&locale=th_TH" target="_blank" rel="noopener noreferrer" className="text-white">FaceBook</a>
-                            </div>
+                                <p className="text-white">FaceBook</p>
+                            </a>
                             <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#ff0033] w-full p-[8px_10px] rounded-[30px]">
                                 <YouTube color="white"/>
                                 <p className="text-white">YouTube</p>
                             </div>
-                            <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#ffff] w-full p-[8px_10px] rounded-[30px]">
+                            <a href="https://www.tiktok.com/@tumair_chonburi" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center mt-[10px] gap-2 bg-[#ffff] w-full p-[8px_10px] rounded-[30px]">
                                 <TikTok color="white"/>
-                                <a href="https://www.tiktok.com/@tumair_chonburi" target="_blank" rel="noopener noreferrer" className="text-black">TikTok</a>
-                            </div>
+                                <p className="text-black">TikTok</p>
+                            </a>
                         </div>
                     </div>
                 </div>
