@@ -19,11 +19,10 @@ export default function Home() {
     ];
 
     const imagesLogo = [
-        "daikin_logo.webp", "Mitsubishi_Electric_logo.png", "Fujitsu-Logo.svg.webp", "Panasonic_logo_(Blue).svg.webp", "Hitachi_inspire_the_next-Logo.svg.webp",
-        "Logo-AMENA.png", "Toshiba_logo.svg.webp", "tc-horiz-red-logo.png", "Logo_of_the_Carrier_Corporation.svg.webp", "York.png",
-        "samsung-classic-text-logo-6.png", "LG_logo_(2014).svg.webp", "Centralair-thailand-2026.webp", "Haier_logo.svg.webp", "tcl-logo-1.png",
-        "gree-logo.png", "eminent-logo.png", "STAR-Air.png", "logo.webp", "Sharp-Logo.webp", "midea-logo.png", "auxlogo.png", "uniair.png",
-        "unimaster.webp", "MDV.png", "daisenko.png", "General.png", "Z7_Frio_Logo.webp", "comfee.png", "Hisense.webp", "focus.jpg"
+       "Mitsubishi_Electric_logo.png", "daikin_logo.webp", "MITSUBISHI-Heavy-Duty1.png", "Panasonic_logo_(Blue).svg.webp",
+       "Fujitsu-Logo.svg.webp", "Logo_of_the_Carrier_Corporation.svg.webp", "Toshiba_logo.svg.webp", "Hitachi_inspire_the_next-Logo.svg.webp",
+       "Sharp-Logo.webp", "tc-horiz-red-logo.png", "York.png", "Saijo-Denki.png", "LG_logo_(2014).svg.webp", "samsung-classic-text-logo-6.png",
+       "gree-logo.png", "midea-logo.png", "Haier_logo.svg.webp", "tcl-logo-1.png", "Hisense.webp", "Centralair-thailand-2026.webp"
     ];
 
     const activityImages = [
@@ -506,7 +505,7 @@ export default function Home() {
                     <div>
                         <CircleAlert color="red"/>
                     </div>
-                    <p className="text-red-500 text-[15px]">หมายเหตุ: ข้อมูลที่ได้จากการคำนวณนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น ปัจจัยอื่น ๆ เช่น ความสูงเพดาน, จำนวนคน, และทิศทางแดด อาจทำให้ต้องเพิ่มขนาด BTU ครับ</p>
+                    <p className="text-red-500 text-[14px]">หมายเหตุ: ข้อมูลที่ได้จากการคำนวณนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น ยังมีปัจจัยอื่น ๆ เช่น จำนวนคน ทิศทางแดด หรือเครื่องใช้ไฟฟ้าที่มีความร้อน อาจทำให้ต้องเพิ่มขนาด btu และ ควรเลือกแอร์ที่มีขนาด btu สูงกว่าที่คำนวณได้เสมอ เช่น คำนวณได้ 8,500 btu ควรปัดขึ้นเป็น 9,000 btu หรือคำนวณได้ 11,470 btu ก็ควรปัดขึ้นเป็น 12,000 btu เป็นต้น เพื่อป้องกันไม่ให้แอร์ทำงานหนักจนเกินไปครับ</p>
                 </div>
             </div>
             <div id="contact-us" className={`
