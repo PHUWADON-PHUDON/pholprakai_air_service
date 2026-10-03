@@ -1,13 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Snowflake from "../icons/Snowflake";
 import MainMenu from "./MainMenu";
 import Phone from "../icons/Phone";
 import Chat from "../icons/Chat";
 
 export default function Header() {
+    const [showContactBar, setShowContactBar] = useState(true);
+
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+
+            if (scrollY <= 80) {
+                setShowContactBar(true);
+                lastScrollY = scrollY;
+            } else if (Math.abs(scrollY - lastScrollY) > 6) {
+                setShowContactBar(scrollY < lastScrollY);
+                lastScrollY = scrollY;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return(
         <header className="fixed left-0 w-full z-100">
             <div>
-                <div className="px-[20px] bg-white">
+                <div className={`relative z-10 bg-white px-[20px] border-b border-text/20 duration-300 ease-out ${showContactBar && "min-[420px]:border-transparent"}`}>
                     <div className={`
                         mx-auto max-w-[1440px] p-[20px_0px_10px_0px] grid grid-cols-2 items-center justify-items-center
                         max-[730px]:grid-cols-[5fr_1fr] 
@@ -25,10 +49,7 @@ export default function Header() {
                     </div>
 
                 </div>
-                <div className={`
-                    flex justify-between py-[5px] px-[20px] bg-blue-2
-                    max-[420px]:hidden
-                `}>
+                <div className={`relative z-0 flex justify-between bg-blue-2 px-[20px] py-[5px] transition-transform duration-300 ease-out max-[420px]:hidden ${showContactBar ? "translate-y-0" : "pointer-events-none -translate-y-[35px]"}`}>
                     <div className="mx-auto w-[1440px] flex items-center justify-between">
                         <div className={`
                             flex items-center gap-2
@@ -46,7 +67,7 @@ export default function Header() {
                                 <Chat color="var(--green)"/>
                                 <p className={`
                                     text-green
-                                    max-[830px]:text-[14px] 
+                                    max-[830px]:text-[14px]
                                 `}>ไลน์: @064pjnra (มี @ ด้านหน้า)</p>
                             </div>
                         </div>
@@ -57,7 +78,7 @@ export default function Header() {
                             <Chat color="var(--green)"/>
                             <p className={`
                                 text-green
-                                max-[830px]:text-[14px] 
+                                max-[830px]:text-[14px]
                             `}>ไลน์: @064pjnra (มี @ ด้านหน้า)</p>
                         </div>
                     </div>

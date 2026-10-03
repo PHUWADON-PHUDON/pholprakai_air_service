@@ -1,0 +1,89 @@
+import type { CatalogFilters, CatalogPage, CatalogParams } from "@/features/air/service";
+import { getPrisma } from "@/lib/prisma";
+
+export async function getCatalogFiltersData(): Promise<CatalogFilters> {
+  const prisma = getPrisma();
+  const [brands, systems, sizes] = await Promise.all([
+    prisma.brand.findMany({
+      where: { models: { some: {} } },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.system.findMany({
+      where: { models: { some: {} } },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.model.findMany({
+      distinct: ["btu"],
+      select: { btu: true },
+      orderBy: { btu: "asc" },
+    }),
+  ]);
+
+  return { brands, systems, btus: sizes.map(({ btu }) => btu) };
+}
+
+export async function getCatalogPageData(params: CatalogParams): Promise<CatalogPage> {
+  const { brandId, systemId, btu, sort, page, limit } = params;
+  const where = {
+    ...(brandId ? { brandId } : {}),
+    ...(systemId ? { systemId } : {}),
+    ...(btu ? { btu: Number(btu) } : {}),
+  };
+  const orderBy = sort === "price-asc" ? { priceInstall: "asc" as const }
+    : sort === "price-desc" ? { priceInstall: "desc" as const }
+      : sort === "btu-asc" ? { btu: "asc" as const }
+        : { name: "asc" as const };
+
+  const prisma = getPrisma();
+  const total = await prisma.model.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const currentPage = Math.min(page, totalPages);
+  const models = await prisma.model.findMany({
+    where,
+    orderBy,
+    skip: (currentPage - 1) * limit,
+    take: limit,
+    select: {
+      id: true,
+      name: true,
+      modelCode: true,
+      btu: true,
+      isSaveElectricity: true,
+      seer: true,
+      priceInstall: true,
+      priceDefault: true,
+      installWarranty: true,
+      compressorWarranty: true,
+      sparePartWarranty: true,
+      brand: { select: { name: true, image: true } },
+      system: { select: { name: true } },
+      images: { select: { imageUrl: true }, orderBy: { position: "asc" } },
+    },
+  });
+
+  return {
+    items: models.map((model) => ({
+      id: model.id,
+      name: model.name,
+      modelCode: model.modelCode,
+      btu: model.btu,
+      isSaveElectricity: model.isSaveElectricity,
+      seer: Number(model.seer),
+      priceInstall: Number(model.priceInstall),
+      priceDefault: Number(model.priceDefault),
+      installWarranty: model.installWarranty,
+      compressorWarranty: model.compressorWarranty,
+      sparePartWarranty: model.sparePartWarranty,
+      brandName: model.brand.name,
+      brandImageUrl: model.brand.image,
+      systemName: model.system.name,
+      imageUrl: model.images[0]?.imageUrl ?? "",
+      imageUrls: model.images.map((image) => image.imageUrl),
+    })),
+    total,
+    page: currentPage,
+    totalPages,
+  };
+}

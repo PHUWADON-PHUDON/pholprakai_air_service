@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import ImageGallery from "react-image-gallery";
 import MasonryGallery from "./ActivityMasonry";
 import ActivityImagesSlice from "./ActivityImagesSlice";
@@ -7,15 +7,28 @@ import "react-image-gallery/styles/image-gallery.css";
 
 interface ImageSliderProps {
     images: string[];
+    videos?: string[];
     autoPlayDelay?: number;
     altPrefix?: string;
 }
 
 const PREVIEW_COUNT_DESKTOP = 8;
 const PREVIEW_COUNT_MOBILE = 6;
+const MOBILE_QUERY = "(max-width: 640px)";
+
+function subscribeToViewport(onChange: () => void) {
+    const media = window.matchMedia(MOBILE_QUERY);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+}
+
+function isMobileViewport() {
+    return window.matchMedia(MOBILE_QUERY).matches;
+}
 
 export default function ImagesActivity({
     images,
+    videos = [],
     autoPlayDelay = 3000,
     altPrefix = "ผลงานบริการแอร์ พลประกาย แอร์ เซอร์วิส ชลบุรี",
 }: ImageSliderProps) {
@@ -23,6 +36,7 @@ export default function ImagesActivity({
     const [selectIndex, setSelectIndex] = useState(0);
     const [showAll, setShowAll] = useState(false);
     const galleryRef = useRef<any>(null);
+    const isMobile = useSyncExternalStore(subscribeToViewport, isMobileViewport, () => false);
 
     const handleImageClick = (index: number) => {
         setSelectIndex(index);
@@ -114,10 +128,7 @@ export default function ImagesActivity({
                     </div>
                 </div>
             } */}
-            <div className={`
-                hidden
-                max-[640]:block
-            `}>
+            {isMobile && <div className="block">
                 {/* <div>
                     <img onClick={() => handleImageClick(0)} src={`/activity/${images[0]}`} loading="lazy" decoding="async" alt={`${altPrefix} รูปที่ ${1}`} className="rounded-[4px]" />
                 </div>
@@ -148,12 +159,10 @@ export default function ImagesActivity({
                     />
                     <div onClick={() => handleImageClick(4)} className="border-2 flex justify-center items-center border-text/20 text-text/50 rounded-[4px] cursor-pointer">เพิ่มเติม</div>
                 </div> */}
-                <ActivityImagesSlice images={images}/>
-            </div>
+                <ActivityImagesSlice images={images} videos={videos}/>
+            </div>}
 
-            <div className={`
-                max-[640px]:hidden
-            `}>
+            {!isMobile && <div className="max-[640px]:hidden">
                 {/* <div className={`
                     columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-3
                 `}>
@@ -174,13 +183,22 @@ export default function ImagesActivity({
                         />
                     ))}
                 </div> */}
-                <MasonryGallery
-                    images={images}
-                    showAll={showAll}
-                    previewCountDesktop={PREVIEW_COUNT_DESKTOP}
-                    previewCountMobile={PREVIEW_COUNT_MOBILE}
-                    altPrefix="ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี"
-                />
+                <div className={`relative ${showAll ? "" : "max-h-[480px] overflow-hidden"}`}>
+                    <MasonryGallery
+                        images={images}
+                        videos={videos}
+                        showAll={showAll}
+                        previewCountDesktop={PREVIEW_COUNT_DESKTOP}
+                        previewCountMobile={PREVIEW_COUNT_MOBILE}
+                        altPrefix="ภาพผลงานล้างแอร์และติดตั้งแอร์ในชลบุรี"
+                    />
+                    {!showAll && (
+                        <div
+                            aria-hidden="true"
+                            className="mb-[-5px] pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-b from-transparent to-white to-90%"
+                        />
+                    )}
+                </div>
                 <button 
                     type="button" 
                     onClick={() => setShowAll(!showAll)}
@@ -188,7 +206,7 @@ export default function ImagesActivity({
                 >
                     {showAll ? "แสดงน้อยลง":"แสดงรูปทั้งหมด"}
                 </button>
-            </div>
+            </div>}
         </>
     );
 }

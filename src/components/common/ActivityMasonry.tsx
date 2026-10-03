@@ -6,9 +6,11 @@ import {
     useMemo,
     useState,
 } from "react";
+import { VideoEmbed } from "./VideoEmbedUrl";
 
 type MasonryGalleryProps = {
     images: string[];
+    videos?: string[];
     showAll?: boolean;
     previewCountDesktop?: number;
     previewCountMobile?: number;
@@ -18,16 +20,20 @@ type MasonryGalleryProps = {
 };
 
 type ImageInfo = {
+    type: "image";
     src: string;
     index: number;
     width: number;
     height: number;
 };
 
-type Column = ImageInfo[];
+type VideoInfo = { type: "video"; url: string; index: number };
+type ActivityItem = ImageInfo | VideoInfo;
+type Column = ActivityItem[];
 
 export default function MasonryGallery({
     images,
+    videos = [],
     showAll = true,
     previewCountDesktop = 8,
     previewCountMobile = 4,
@@ -83,6 +89,7 @@ export default function MasonryGallery({
 
                             img.onload = () => {
                                 resolve({
+                                    type: "image",
                                     src,
                                     index,
                                     width: img.naturalWidth,
@@ -92,6 +99,7 @@ export default function MasonryGallery({
 
                             img.onerror = () => {
                                 resolve({
+                                    type: "image",
                                     src,
                                     index,
                                     width: 1,
@@ -117,9 +125,15 @@ export default function MasonryGallery({
         };
     }, [images]);
 
-    const visibleImages = useMemo(() => {
+    const visibleItems = useMemo(() => {
+        const items: ActivityItem[] = [
+            ...imageInfo.slice(0, 3),
+            ...videos.map((url, index) => ({ type: "video" as const, url, index })),
+            ...imageInfo.slice(3),
+        ];
+
         if (showAll) {
-            return imageInfo;
+            return items;
         }
 
         const count =
@@ -127,9 +141,10 @@ export default function MasonryGallery({
                 ? previewCountDesktop
                 : previewCountMobile;
 
-        return imageInfo.slice(0, count);
+        return items.slice(0, count);
     }, [
         imageInfo,
+        videos,
         showAll,
         columnCount,
         previewCountDesktop,
@@ -142,7 +157,7 @@ export default function MasonryGallery({
             () => []
         );
 
-        if (!visibleImages.length) {
+        if (!visibleItems.length) {
             return result;
         }
 
@@ -150,9 +165,8 @@ export default function MasonryGallery({
             columnCount
         ).fill(0);
 
-        for (const image of visibleImages) {
-            const ratio =
-                image.height / image.width;
+        for (const item of visibleItems) {
+            const ratio = item.type === "image" ? item.height / item.width : 9 / 16;
 
             let shortestColumn = 0;
 
@@ -169,14 +183,14 @@ export default function MasonryGallery({
                 }
             }
 
-            result[shortestColumn].push(image);
+            result[shortestColumn].push(item);
 
             columnHeights[shortestColumn] +=
                 ratio;
         }
 
         return result;
-    }, [visibleImages, columnCount]);
+    }, [visibleItems, columnCount]);
 
     if (!isLoaded) {
         return (
@@ -211,31 +225,21 @@ export default function MasonryGallery({
                             gap: `${gap}px`,
                         }}
                     >
-                        {column.map((image) => (
+                        {column.map((item) => item.type === "video" ? (
+                            <div key={`video-${item.index}`} className="overflow-hidden rounded-[8px]">
+                                <VideoEmbed url={item.url} />
+                            </div>
+                        ) : (
                             <img
-                                key={`${image.src}-${image.index}`}
-                                src={`/activity/${image.src}`}
-                                alt={`${altPrefix} รูปที่ ${
-                                    image.index + 1
-                                }`}
-                                width={image.width}
-                                height={image.height}
-                                className="
-                                    block
-                                    w-full
-                                    h-auto
-                                    rounded-[8px]
-                                    cursor-pointer
-                                    hover:opacity-90
-                                    transition-opacity
-                                "
+                                key={`${item.src}-${item.index}`}
+                                src={`/activity/${item.src}`}
+                                alt={`${altPrefix} รูปที่ ${item.index + 1}`}
+                                width={item.width}
+                                height={item.height}
+                                className="block h-auto w-full cursor-pointer rounded-[8px] transition-opacity hover:opacity-90"
                                 loading="lazy"
                                 decoding="async"
-                                onClick={() =>
-                                    onImageClick?.(
-                                        image.index
-                                    )
-                                }
+                                onClick={() => onImageClick?.(item.index)}
                             />
                         ))}
                     </div>

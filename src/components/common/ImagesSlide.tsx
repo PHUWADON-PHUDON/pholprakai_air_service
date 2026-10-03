@@ -2,6 +2,8 @@
 import { useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
+import ChevronLeft from "../icons/ChevronLeft";
+import ChevronRight from "../icons/ChevronRight";
 
 interface ImageSliderProps {
     images: string[];
@@ -12,7 +14,7 @@ interface ImageSliderProps {
 export default function ImageSlider({
     images,
     autoPlayDelay = 3000,
-    altPrefix = "ผลงานบริการแอร์ พลประกาย แอร์ เซอร์วิส ชลบุรี",
+    altPrefix = "เครื่องปรับอากาศที่พลประกาย แอร์ เซอร์วิส จำหน่ายในชลบุรี",
 }: ImageSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -46,7 +48,7 @@ export default function ImageSlider({
                         onClick={onClick}
                         className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white rounded-full w-9 h-9 flex items-center justify-center text-[20px] transition-colors cursor-pointer"
                     >
-                        ‹
+                        <ChevronLeft color="white"/>
                     </button>
                 )}
                 renderRightNav={(onClick, disabled) => (
@@ -56,7 +58,7 @@ export default function ImageSlider({
                         onClick={onClick}
                         className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/60 text-white rounded-full w-9 h-9 flex items-center justify-center text-[20px] transition-colors cursor-pointer"
                     >
-                        ›
+                        <ChevronRight color="white"/>
                     </button>
                 )}
             />
