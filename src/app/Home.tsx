@@ -6,14 +6,21 @@ import ImageSlider from "@/components/common/ImagesSlide";
 import ImageMarquee from "@/components/common/ImagesMarquee";
 import Toolbox from "@/components/icons/Toolbox";
 import ImagesActivity from "@/components/common/ImagesActivity";
-import VideoEmbedUrl from "@/components/common/VideoEmbedUrl";
 import Btucal from "@/components/common/Btucal";
 import CircleAlert from "@/components/icons/CircleAlert";
 import Footer from "@/components/common/Footer";
 import Verify from "@/components/icons/Verify";
 import Image from "next/image";
+import AirReady from "@/components/common/AirReady";
+import type { CatalogFilters, CatalogPage } from "@/features/air/service";
 
-export default function Home() {
+export default function Home({
+    initialCatalog,
+    initialFilters,
+}: {
+    initialCatalog?: CatalogPage;
+    initialFilters?: CatalogFilters;
+}) {
     const images = [
         "002.png", "004.png", "005.png", "006.png", "007.png", "008.png"
     ];
@@ -26,7 +33,7 @@ export default function Home() {
     ];
 
     const activityImages = [
-        "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg",
+        "2.jpg", "1.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg",
         "11.jpg", "12.jpg", "13.jpg", "14.jpg", "15.jpg"
     ];
 
@@ -334,16 +341,16 @@ export default function Home() {
                     <span className="mr-[10px] mb-[10px] p-[10px_20px] border border-text/20 rounded-[30px] text-blue-2">และพื้นที่ใกล้เคียง</span>
                 </div>
             </div>
-            <div id="workings" className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">ภาพกิจกรรมการทำงาน</h2>
+            <div className="mt-[25px] mb-[25px] p-[20px]">
+                <h2 className="text-[25px] font-bold text-center">แอร์ พร้อมติดตั้ง</h2>
                 <div className="mt-[20px]">
-                    <ImagesActivity images={activityImages}/>
+                    <AirReady initialCatalog={initialCatalog} initialFilters={initialFilters} />
                 </div>
             </div>
-            <div className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">วิดีโอการทำงาน</h2>
+            <div id="workings" className="mt-[25px] mb-[25px] p-[20px]">
+                <h2 className="text-[25px] font-bold text-center">กิจกรรมการทำงาน</h2>
                 <div className="mt-[20px]">
-                    <VideoEmbedUrl urls={videoUrl}/>
+                    <ImagesActivity images={activityImages} videos={videoUrl}/>
                 </div>
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { absoluteUrl, BUSINESS_NAME, PRIMARY_DESCRIPTION, SITE_URL } from "@/lib/seo";
+import { BUSINESS_NAME, SITE_URL } from "@/lib/seo";
+import Providers from "./providers";
 import "./globals.css";
 
 const lineFontTh = localFont({
@@ -29,10 +30,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: BUSINESS_NAME,
   title: {
-    default: `${BUSINESS_NAME} | ร้านแอร์ชลบุรี ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์`,
+    default: `ร้านแอร์ชลบุรี | ${BUSINESS_NAME} ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์`,
     template: `%s | ${BUSINESS_NAME}`,
   },
-  description: PRIMARY_DESCRIPTION,
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -44,42 +44,6 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
-  },
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "th_TH",
-    url: SITE_URL,
-    siteName: BUSINESS_NAME,
-    title: `${BUSINESS_NAME} | ร้านแอร์ชลบุรี`,
-    description: PRIMARY_DESCRIPTION,
-    images: [
-      {
-        url: absoluteUrl("/slide_images/002.png"),
-        width: 602,
-        height: 268,
-        alt: "ผลงานบริการแอร์ของพลประกาย แอร์ เซอร์วิส ชลบุรี",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${BUSINESS_NAME} | ร้านแอร์ชลบุรี`,
-    description: PRIMARY_DESCRIPTION,
-    images: [absoluteUrl("/slide_images/002.png")],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
   },
 };
 
@@ -95,7 +59,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col max-w-[1440px] mx-auto"
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

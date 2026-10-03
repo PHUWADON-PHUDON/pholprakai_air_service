@@ -10,8 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       images: [
         absoluteUrl("/slide_images/002.png"),
-        absoluteUrl("/person.png"),
-        absoluteUrl("/person2.png"),
+        absoluteUrl("/activity/1.jpg"),
       ],
     },
   ];

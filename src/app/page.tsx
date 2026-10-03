@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import Home from "./Home";
+import type { CatalogFilters, CatalogPage } from "@/features/air/service";
+import { getCatalogFiltersData, getCatalogPageData } from "@/lib/catalog";
 import {
   absoluteUrl,
   BUSINESS_NAME,
@@ -11,19 +14,67 @@ import {
   SITE_URL,
 } from "@/lib/seo";
 
-export default function page() {
+const pageTitle = `ร้านแอร์ชลบุรี | ${BUSINESS_NAME} ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์`;
+const socialImage = absoluteUrl("/slide_images/002.png");
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: { absolute: pageTitle },
+  description: PRIMARY_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "th_TH",
+    url: SITE_URL,
+    siteName: BUSINESS_NAME,
+    title: pageTitle,
+    description: PRIMARY_DESCRIPTION,
+    images: [{
+      url: socialImage,
+      width: 602,
+      height: 268,
+      alt: "เครื่องปรับอากาศที่มีจำหน่ายโดยพลประกาย แอร์ เซอร์วิส",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: PRIMARY_DESCRIPTION,
+    images: [socialImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+};
+
+export default async function page() {
+  const [catalogResult, filtersResult] = await Promise.allSettled([
+    getCatalogPageData({ brandId: "", systemId: "", btu: "", sort: "name", page: 1, limit: 8 }),
+    getCatalogFiltersData(),
+  ]);
+  const initialCatalog: CatalogPage | undefined = catalogResult.status === "fulfilled" ? catalogResult.value : undefined;
+  const initialFilters: CatalogFilters | undefined = filtersResult.status === "fulfilled" ? filtersResult.value : undefined;
+
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
     "@id": `${SITE_URL}/#local-business`,
     name: BUSINESS_NAME,
     url: SITE_URL,
-    image: absoluteUrl("/slide_images/002.png"),
+    image: absoluteUrl("/activity/1.jpg"),
     logo: absoluteUrl("/android-chrome-512x512.png"),
     description: PRIMARY_DESCRIPTION,
     telephone: PHONE_E164,
     email: EMAIL,
-    priceRange: "$$",
     address: {
       "@type": "PostalAddress",
       addressLocality: "เมืองชลบุรี",
@@ -39,15 +90,16 @@ export default function page() {
         "@type": "ContactPoint",
         telephone: PHONE_E164,
         contactType: "customer service",
-        areaServed: "TH",
+        areaServed: "ชลบุรี",
         availableLanguage: ["th"],
       },
       {
         "@type": "ContactPoint",
         name: `LINE ${LINE_ID}`,
         telephone: PHONE_DISPLAY,
+        url: `https://line.me/R/ti/p/${LINE_ID}`,
         contactType: "customer service",
-        areaServed: "TH",
+        areaServed: "ชลบุรี",
         availableLanguage: ["th"],
       },
     ],
@@ -76,9 +128,9 @@ export default function page() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, "\\u003c") }}
       />
-      <Home/>
+      <Home initialCatalog={initialCatalog} initialFilters={initialFilters} />
     </>
   );
 }

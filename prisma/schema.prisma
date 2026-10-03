@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Brand {
+  id     String  @id @default(uuid()) @db.Uuid
+  name   String  @db.VarChar(500)
+  image  String  @db.Text
+  models Model[]
+
+  @@map("brand")
+}
+
+model System {
+  id     String  @id @default(uuid()) @db.Uuid
+  name   String  @db.VarChar(500)
+  models Model[]
+
+  @@map("system")
+}
+
+model Image {
+  id       String  @id @default(uuid()) @db.Uuid
+  imageUrl String  @map("image_url") @db.VarChar(500)
+  modelId  String  @map("model_id") @db.Uuid
+  position Int
+  model    Model   @relation(fields: [modelId], references: [id], onDelete: Cascade)
+
+  @@unique([modelId, position])
+  @@map("images")
+}
+
+model Model {
+  id                 String  @id @default(uuid()) @db.Uuid
+  name               String  @db.VarChar(500)
+  btu                Int
+  isSaveElectricity  Boolean @map("is_save_electricity")
+  seer               Decimal @db.Decimal(5, 2)
+  priceInstall       Decimal @map("price_install") @db.Decimal(12, 2)
+  priceDefault       Decimal @map("price_default") @db.Decimal(12, 2)
+  installWarranty    Int     @map("install_warranty")
+  compressorWarranty Int     @map("compressor_warranty")
+  sparePartWarranty  Int     @map("spare_part_warranty")
+  systemId           String  @map("system_id") @db.Uuid
+  modelCode          String  @map("model_code") @db.VarChar(500)
+  brandId            String  @map("brand_id") @db.Uuid
+
+  system System @relation(fields: [systemId], references: [id])
+  images Image[]
+  brand  Brand  @relation(fields: [brandId], references: [id])
+
+  @@index([systemId])
+  @@index([brandId])
+  @@map("model")
+}

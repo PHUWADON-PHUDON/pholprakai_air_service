@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getTikTokEmbed } from "@/features/video/service";
 
 type Platform = "youtube" | "facebook" | "tiktok" | "unknown";
 
@@ -33,18 +35,56 @@ export default function VideoEmbedUrl({ urls }: VideoMasonryGridProps) {
     );
 }
 
-function VideoEmbed({ url }: { url: string }) {
+export function VideoEmbed({
+    url,
+    onInteract,
+    resetOnExit = true,
+}: {
+    url: string;
+    onInteract?: () => void;
+    resetOnExit?: boolean;
+}) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const interactedRef = useRef(false);
+    const [resetKey, setResetKey] = useState(0);
     const platform = detectPlatform(url);
 
-    if (platform === "youtube") return <YoutubeEmbed url={url} />;
-    if (platform === "facebook") return <FacebookEmbed url={url} />;
-    if (platform === "tiktok") return <TikTokEmbed url={url} />;
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || !resetOnExit) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting && interactedRef.current) {
+                    interactedRef.current = false;
+                    setResetKey((key) => key + 1);
+                }
+            },
+            { threshold: 0.1 },
+        );
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, [resetOnExit]);
 
-    return (
-        <div className="w-full aspect-video flex items-center justify-center bg-white/5 rounded-[12px]">
-            <p className="text-white/50 text-sm">ไม่รองรับลิงก์นี้</p>
-        </div>
-    );
+    const handleInteract = () => {
+        interactedRef.current = true;
+        onInteract?.();
+    };
+
+    useEffect(() => {
+        const handleWindowBlur = () => {
+            if (containerRef.current?.contains(document.activeElement)) handleInteract();
+        };
+        window.addEventListener("blur", handleWindowBlur);
+        return () => window.removeEventListener("blur", handleWindowBlur);
+    }, [onInteract]);
+
+    let content = null;
+    if (platform === "youtube") content = <YoutubeEmbed key={resetKey} url={url} />;
+    else if (platform === "facebook") content = <FacebookEmbed key={resetKey} url={url} />;
+    else if (platform === "tiktok") content = <TikTokEmbed key={resetKey} url={url} />;
+    else content = <div className="flex aspect-video items-center justify-center bg-white/5 text-sm">ไม่รองรับลิงก์นี้</div>;
+
+    return <div ref={containerRef} className="w-full">{content}</div>;
 }
 
 function YoutubeEmbed({ url }: { url: string }) {
@@ -73,45 +113,52 @@ function YoutubeEmbed({ url }: { url: string }) {
 }
 
 function FacebookEmbed({ url }: { url: string }) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [size, setSize] = useState<{ width: number; height: number } | null>(null);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const measure = () => {
+            const width = Math.round(container.clientWidth);
+            const height = Math.round(container.clientHeight);
+            if (!width || !height) return;
+            setSize((previous) => previous?.width === width && previous.height === height
+                ? previous
+                : { width, height });
+        };
+
+        measure();
+        const observer = new ResizeObserver(measure);
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <div className="relative w-full aspect-video">
-            <iframe
-                src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(url)}&show_text=false`}
+        <div ref={containerRef} className="relative w-full aspect-video">
+            {/* Facebook needs the player dimensions, not just the iframe's CSS size. */}
+            {size && <iframe
+                src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=${size.width}&height=${size.height}`}
+                width={size.width}
+                height={size.height}
                 className="absolute inset-0 w-full h-full rounded-[12px]"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 allowFullScreen
-                loading="lazy"
+                loading="eager"
                 title="Facebook video"
-            />
+            />}
         </div>
     );
 }
 
 function TikTokEmbed({ url }: { url: string }) {
-    const [html, setHtml] = useState<string | null>(null);
-    const [error, setError] = useState(false);
-
-    useEffect(() => {
-        let cancelled = false;
-        setHtml(null);
-        setError(false);
-
-        fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`)
-            .then((res) => {
-                if (!res.ok) throw new Error("oEmbed fetch failed");
-                return res.json();
-            })
-            .then((data) => {
-                if (!cancelled) setHtml(data.html);
-            })
-            .catch(() => {
-                if (!cancelled) setError(true);
-            });
-
-        return () => {
-            cancelled = true;
-        };
-    }, [url]);
+    const { data: html, isError } = useQuery({
+        queryKey: ["tiktok-oembed", url],
+        queryFn: () => getTikTokEmbed(url),
+        staleTime: Infinity,
+        retry: false,
+    });
 
     useEffect(() => {
         if (!html) return;
@@ -132,7 +179,7 @@ function TikTokEmbed({ url }: { url: string }) {
         document.body.appendChild(script);
     }, [html]);
 
-    if (error) {
+    if (isError) {
         return (
             <div className="w-full aspect-[9/16] flex items-center justify-center bg-white/5 rounded-[12px]">
                 <p className="text-white/50 text-sm">โหลดวิดีโอ TikTok ไม่สำเร็จ</p>
