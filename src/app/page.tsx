@@ -14,7 +14,7 @@ import {
   SITE_URL,
 } from "@/lib/seo";
 
-const pageTitle = `${BUSINESS_NAME} | ร้านแอร์ชลบุรี ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์`;
+const pageTitle = `ร้านแอร์ชลบุรี | ${BUSINESS_NAME} ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์`;
 const socialImage = absoluteUrl("/slide_images/002.png");
 
 export const dynamic = "force-dynamic";

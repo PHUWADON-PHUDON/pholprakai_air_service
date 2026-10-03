@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: BUSINESS_NAME,
   title: {
-    default: `${BUSINESS_NAME} | ร้านแอร์ชลบุรี ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์`,
+    default: `ร้านแอร์ชลบุรี | ${BUSINESS_NAME} ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์`,
     template: `%s | ${BUSINESS_NAME}`,
   },
   manifest: "/site.webmanifest",
