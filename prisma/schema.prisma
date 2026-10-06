@@ -43,6 +43,8 @@ model Model {
   seer               Decimal @db.Decimal(5, 2)
   priceInstall       Decimal @map("price_install") @db.Decimal(12, 2)
   priceDefault       Decimal @map("price_default") @db.Decimal(12, 2)
+  stock              Int     @default(0)
+  isOutOfStock       Boolean @default(false) @map("is_out_of_stock")
   installWarranty    Int     @map("install_warranty")
   compressorWarranty Int     @map("compressor_warranty")
   sparePartWarranty  Int     @map("spare_part_warranty")

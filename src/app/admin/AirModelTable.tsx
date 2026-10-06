@@ -104,7 +104,7 @@ export default function AirModelTable() {
         </p>
       ) : (
         <div className="mt-4 overflow-x-auto border border-[#e1e7eb] bg-white">
-          <table className="w-full min-w-[1280px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[1440px] border-collapse text-left text-sm">
             <thead className="bg-[#f0f4f6] text-xs font-bold text-[#52616c]">
               <tr>
                 <th scope="col" className="px-4 py-3">รุ่นแอร์</th>
@@ -114,6 +114,8 @@ export default function AirModelTable() {
                 <th scope="col" className="px-4 py-3 text-center">ประหยัดไฟ</th>
                 <th scope="col" className="px-4 py-3 text-right">ราคาปกติ</th>
                 <th scope="col" className="px-4 py-3 text-right">ราคาพร้อมติดตั้ง</th>
+                <th scope="col" className="px-4 py-3 text-right">สต็อก (เครื่อง)</th>
+                <th scope="col" className="px-4 py-3">สถานะสินค้า</th>
                 <th scope="col" className="px-4 py-3">รับประกัน</th>
                 <th scope="col" className="px-4 py-3 text-right">จัดการ</th>
               </tr>
@@ -143,6 +145,10 @@ export default function AirModelTable() {
                   <td className="px-4 py-3 text-center">{model.isSaveElectricity ? "ใช่" : "ไม่ใช่"}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{priceFormat.format(model.priceDefault)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{priceFormat.format(model.priceInstall)}</td>
+                  <td className="px-4 py-3 text-right tabular-nums">{numberFormat.format(model.stock)}</td>
+                  <td className={`px-4 py-3 whitespace-nowrap font-semibold ${model.isOutOfStock ? "text-[#a43f35]" : "text-[#18834a]"}`}>
+                    {model.isOutOfStock ? "สินค้าหมด" : "พร้อมจำหน่าย"}
+                  </td>
                   <td className="px-4 py-3 text-xs leading-5 text-[#52616c]">
                     <div>ติดตั้ง {formatWarranty(model.installWarranty)}</div>
                     <div>คอมเพรสเซอร์ {formatWarranty(model.compressorWarranty)}</div>

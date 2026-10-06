@@ -11,6 +11,8 @@ export type AirModel = {
   seer: number;
   priceInstall: number;
   priceDefault: number;
+  stock: number;
+  isOutOfStock: boolean;
   installWarranty: number;
   compressorWarranty: number;
   sparePartWarranty: number;
@@ -64,6 +66,8 @@ export type CatalogItem = {
   seer: number;
   priceInstall: number;
   priceDefault: number;
+  stock: number;
+  isOutOfStock: boolean;
   installWarranty: number;
   compressorWarranty: number;
   sparePartWarranty: number;

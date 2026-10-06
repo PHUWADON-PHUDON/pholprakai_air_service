@@ -15,6 +15,7 @@ import {
   type CatalogParams,
 } from "@/features/air/service";
 import { formatWarranty } from "@/lib/utils/formatWarranty";
+import { getDiscountPercent } from "@/lib/utils/airPricing";
 import ChevronLeft from "../icons/ChevronLeft";
 import ChevronRight from "../icons/ChevronRight";
 import Chat from "../icons/Chat";
@@ -91,85 +92,96 @@ function BrandLogo({ item }: { item: CatalogItem }) {
 function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }) {
   const hasDiscount = item.priceDefault > item.priceInstall && item.priceDefault > 0;
   const discount = hasDiscount
-    ? Math.round(((item.priceDefault - item.priceInstall) / item.priceDefault) * 100)
+    ? Number(getDiscountPercent(item.priceDefault.toFixed(2), item.priceInstall.toFixed(2)))
     : 0;
+  const displayDiscount = Math.trunc(discount);
 
   return (
-    <article className="relative flex min-w-0 h-[400px] flex-col p-4 overflow-hidden rounded-[8px] border-2 border-[#dedede] text-[#373737] transition-colors hover:border-[#75a4bd]">
-      <div
-        aria-hidden="true"
-        className={`
-            absolute left-0 top-0 -z-1 w-full h-[500px]
-        `}
-        style={{
-            backgroundImage: "url('/wave_background_pattern.svg')",
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            opacity: "0.5"
-        }}
-      />
-      <span 
-        className={`
-          absolute z-1 p-[5px] left-0 top-0 block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede]
-          ${!item.isSaveElectricity && "rounded-br-[8px]"}
+    <article className="relative">
+      <p className={`
+        absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden w-full font-bold text-white text-[20px] p-[5px_10px] text-center z-1 bg-gray-500/90
+        ${item.isOutOfStock ? "!block":item.stock <= 0 && "!block"}
         `}>
-        <BrandLogo item={item} />
-      </span>
-      {item.isSaveElectricity &&
-        <span className="absolute z-1 p-[5px] left-0 top-[40px] block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede] rounded-br-[8px]">
-          <img
-            src={"/logo/number5.png"}
-            alt={`โลโก้ ประหยัดไฟเบอร์ 5`}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-contain"
+        สินค้าหมด
+      </p>
+      <div className={`${item.isOutOfStock ? "grayscale":item.stock <= 0 && "grayscale"}`}>
+        <div className="relative flex min-w-0 h-[400px] flex-col p-4 overflow-hidden rounded-[8px] border-2 border-[#dedede] text-[#373737] transition-colors hover:border-[#75a4bd]">
+          <div
+            aria-hidden="true"
+            className={`
+                absolute left-0 top-0 -z-1 w-full h-[500px]
+            `}
+            style={{
+                backgroundImage: "url('/wave_background_pattern.svg')",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                opacity: "0.5"
+            }}
           />
-        </span>
-      }
-      {discount > 0 &&
-        <div className={`border border-transparent border-b-[#dedede] border-l-[#dedede] bg-yellow-400 absolute z-1 p-[5px] right-0 top-0 block w-[50px] h-[40px] text-center text-white rounded-bl-[8px]`}>
-          <p className="text-[14px] mt-[-6px]">ลด</p>
-          <p className="mt-[-5px] font-bold">{discount}%</p>
-        </div>
-      }
-      <div className="relative h-[45%] shrink-0 mb-3 overflow-hidden">
-        <ProductImage item={item} />
-        {/* <div className="absolute left-0 top-2 flex max-w-[60%] flex-col items-start gap-1 text-xs font-bold text-white">
-          <span className="max-w-full bg-[#78aa22] px-1.5 py-1">พร้อมติดตั้ง</span>
-          {item.isSaveElectricity && <span className="max-w-full bg-[#f28b00] px-1.5 py-1">ประหยัดไฟ</span>}
-        </div> */}
-        {/* {discount > 0 && (
-          <span className="absolute right-2 top-2 rounded-[3px] bg-[#f00] px-2 py-1 text-base font-bold text-white">
-            -{discount}%
+          <span 
+            className={`
+              absolute z-1 p-[5px] left-0 top-0 block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede]
+              ${!item.isSaveElectricity && "rounded-br-[8px]"}
+            `}>
+            <BrandLogo item={item} />
           </span>
-        )} */}
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col items-center text-center">
-        <h3 title={item.name} className="w-full line-clamp-2 text-[18px] font-bold leading-[1.35] [overflow-wrap:anywhere]">
-          {item.name}
-        </h3>
-        <p className="mt-3 max-w-full text-base font-bold text-[#3988c2] font-bold">SKU : {item.modelCode}</p>
-        <p className="mt-1 max-w-full text-sm text-[#3988c2] font-black">
-          {item.systemName} · {numberFormat.format(item.btu)} BTU
-        </p>
-        <p className="mt-[15px] font-bold">พร้อมติดตั้ง</p>
-        <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-0">
-          {hasDiscount && (
-            <span className="text-[15px] font-semibold text-red-500 line-through">
-              {priceFormat.format(item.priceDefault)}
+          {item.isSaveElectricity &&
+            <span className="absolute z-1 p-[5px] left-0 top-[40px] block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede] rounded-br-[8px]">
+              <img
+                src={"/logo/number5.png"}
+                alt={`โลโก้ ประหยัดไฟเบอร์ 5`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain"
+              />
             </span>
-          )}
-          <span className="text-[21px] font-bold text-green">
-            {priceFormat.format(item.priceInstall)}
-          </span>
+          }
+          {displayDiscount > 0 &&
+            <div className={`border border-transparent border-b-[#dedede] border-l-[#dedede] bg-yellow-400 absolute z-1 p-[5px] right-0 top-0 block w-[72px] h-[40px] text-center text-white rounded-bl-[8px]`}>
+              <p className="text-[14px] mt-[-6px]">ลด</p>
+              <p className="mt-[-5px] font-bold">{displayDiscount}%</p>
+            </div>
+          }
+          <div className="relative h-[45%] shrink-0 mb-3 overflow-hidden">
+            <ProductImage item={item} />
+            {/* <div className="absolute left-0 top-2 flex max-w-[60%] flex-col items-start gap-1 text-xs font-bold text-white">
+              <span className="max-w-full bg-[#78aa22] px-1.5 py-1">พร้อมติดตั้ง</span>
+              {item.isSaveElectricity && <span className="max-w-full bg-[#f28b00] px-1.5 py-1">ประหยัดไฟ</span>}
+            </div> */}
+            {/* {discount > 0 && (
+              <span className="absolute right-2 top-2 rounded-[3px] bg-[#f00] px-2 py-1 text-base font-bold text-white">
+                -{discount}%
+              </span>
+            )} */}
+          </div>
+          <div className="flex min-h-0 flex-1 flex-col items-center text-center">
+            <h3 title={item.name} className="w-full line-clamp-2 text-[18px] font-bold leading-[1.35] [overflow-wrap:anywhere]">
+              {item.name}
+            </h3>
+            <p className="mt-3 max-w-full text-base font-bold text-[#3988c2] font-bold">SKU : {item.modelCode}</p>
+            <p className="mt-1 max-w-full text-sm text-[#3988c2] font-black">
+              {item.systemName} · {numberFormat.format(item.btu)} BTU
+            </p>
+            <p className="mt-[15px] font-bold">พร้อมติดตั้ง</p>
+            <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-0">
+              {hasDiscount && (
+                <span className="text-[15px] font-semibold text-red-500 line-through">
+                  {priceFormat.format(item.priceDefault)}
+                </span>
+              )}
+              <span className="text-[21px] font-bold text-green">
+                {priceFormat.format(item.priceInstall)}
+              </span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`ดูรายละเอียด ${item.name}`}
+            className="absolute inset-0 z-10 cursor-pointer rounded-[8px] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#327db4]"
+          />
         </div>
       </div>
-      <button
-        type="button"
-        onClick={onOpen}
-        aria-label={`ดูรายละเอียด ${item.name}`}
-        className="absolute inset-0 z-10 cursor-pointer rounded-[8px] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#327db4]"
-      />
     </article>
   );
 }
@@ -297,7 +309,12 @@ function ProductDetail({ item, onClose }: { item: CatalogItem; onClose: () => vo
           )}
         </div>
         <div className="min-w-0 md:min-h-0 md:overflow-y-auto md:overscroll-contain p-5 md:pl-0">
-          <p className="text-sm font-semibold text-[#3988c2]">{item.brandName} · {item.systemName}</p>
+          <div>
+            <p className="text-sm font-semibold text-[#3988c2]">{item.brandName} · {item.systemName}</p>
+            <p className="text-[20px] text-red-500 font-bold">
+              {item.isOutOfStock ? "สินค้าหมด":item.stock <= 0 && "สินค้าหมด"}
+            </p>
+          </div>
           <h2 id="air-detail-title" className="mt-2 text-xl font-bold leading-snug [overflow-wrap:anywhere] sm:text-2xl">
             {item.name}
           </h2>
@@ -329,6 +346,7 @@ function ProductDetail({ item, onClose }: { item: CatalogItem; onClose: () => vo
           </div>
           <h3 className="mt-5 text-base font-bold">รายละเอียดสินค้า</h3>
           <dl className="mt-2 divide-y divide-[#edf0f2] text-sm">
+            <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">จำนวน</dt><dd className="text-right font-semibold">{item.isOutOfStock ? "0":item.stock <= 0 ? "0":item.stock}</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ขนาดทำความเย็น</dt><dd className="text-right font-semibold">{numberFormat.format(item.btu)} BTU</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ระบบ</dt><dd className="text-right font-semibold">{item.systemName}</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ค่า SEER</dt><dd className="text-right font-semibold">{item.seer > 0 ? numberFormat.format(item.seer) : "ยังไม่ระบุ"}</dd></div>
