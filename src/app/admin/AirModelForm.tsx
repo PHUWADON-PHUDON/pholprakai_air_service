@@ -15,6 +15,7 @@ import {
 import { getBrands, type Brand } from "@/features/brand/service";
 import { getSystems, type AirSystem } from "@/features/system/service";
 import type { AirModelInput } from "@/lib/airModelInput";
+import { getDiscountedPrice, getDiscountPercent } from "@/lib/utils/airPricing";
 
 type FormValues = {
   name: string;
@@ -26,10 +27,15 @@ type FormValues = {
   seer: string;
   priceDefault: string;
   priceInstall: string;
+  stock: string;
+  isOutOfStock: boolean;
   installWarranty: string;
-  compressorWarranty: string;
-  sparePartWarranty: string;
+  compressorWarrantyYears: string;
+  sparePartWarrantyYears: string;
 };
+
+const DAYS_PER_YEAR = 365;
+const MAX_WARRANTY_YEARS = 2_147_483_647 / DAYS_PER_YEAR;
 
 type ImageDraft = { key: string; url: string; file: File | null };
 
@@ -71,9 +77,11 @@ function initialValues(model?: AirModel): FormValues {
     seer: model?.seer.toFixed(2) ?? "",
     priceDefault: model?.priceDefault.toFixed(2) ?? "",
     priceInstall: model?.priceInstall.toFixed(2) ?? "",
+    stock: model?.stock?.toString() ?? "0",
+    isOutOfStock: model?.isOutOfStock ?? false,
     installWarranty: model?.installWarranty.toString() ?? "",
-    compressorWarranty: model?.compressorWarranty.toString() ?? "",
-    sparePartWarranty: model?.sparePartWarranty.toString() ?? "",
+    compressorWarrantyYears: model ? (model.compressorWarranty / DAYS_PER_YEAR).toString() : "",
+    sparePartWarrantyYears: model ? (model.sparePartWarranty / DAYS_PER_YEAR).toString() : "",
   };
 }
 
@@ -116,6 +124,9 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
   const router = useRouter();
   const queryClient = useQueryClient();
   const [values, setValues] = useState<FormValues>(() => initialValues(model));
+  const [discountPercent, setDiscountPercent] = useState(() => model
+    ? getDiscountPercent(model.priceDefault.toFixed(2), model.priceInstall.toFixed(2))
+    : "0");
   const [images, setImages] = useState<ImageDraft[]>(() => initialImages(model));
   const [message, setMessage] = useState("");
   const nextImageKey = useRef(1);
@@ -123,6 +134,27 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
 
   function setField<K extends keyof FormValues>(key: K, value: FormValues[K]) {
     setValues((current) => ({ ...current, [key]: value }));
+  }
+
+  function changeDefaultPrice(priceDefault: string) {
+    setValues((current) => ({
+      ...current,
+      priceDefault,
+      priceInstall: getDiscountedPrice(priceDefault, discountPercent) ?? current.priceInstall,
+    }));
+  }
+
+  function changeDiscountPercent(percent: string) {
+    setDiscountPercent(percent);
+    setValues((current) => ({
+      ...current,
+      priceInstall: getDiscountedPrice(current.priceDefault, percent) ?? current.priceInstall,
+    }));
+  }
+
+  function changeInstallPrice(priceInstall: string) {
+    setDiscountPercent(getDiscountPercent(values.priceDefault, priceInstall));
+    setField("priceInstall", priceInstall);
   }
 
   function updateImage(key: string, url: string) {
@@ -155,9 +187,11 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
         seer: values.seer,
         priceDefault: values.priceDefault,
         priceInstall: values.priceInstall,
+        stock: Number(values.stock),
+        isOutOfStock: values.isOutOfStock,
         installWarranty: Number(values.installWarranty),
-        compressorWarranty: Number(values.compressorWarranty),
-        sparePartWarranty: Number(values.sparePartWarranty),
+        compressorWarranty: Math.round(Number(values.compressorWarrantyYears) * DAYS_PER_YEAR),
+        sparePartWarranty: Math.round(Number(values.sparePartWarrantyYears) * DAYS_PER_YEAR),
         imageUrls,
       };
       return model ? updateAirModel({ id: model.id, input }) : createAirModel(input);
@@ -250,24 +284,42 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <label htmlFor="air-price-default" className="mb-1.5 block text-sm font-bold text-[#33434e]">ราคาปกติ (บาท)</label>
-            <input id="air-price-default" type="number" min="0" max="9999999999.99" step="0.01" value={values.priceDefault} onChange={(event) => setField("priceDefault", event.target.value)} required className={inputClass} />
+            <input id="air-price-default" type="number" min="0" max="9999999999.99" step="0.01" value={values.priceDefault} onChange={(event) => changeDefaultPrice(event.target.value)} required className={inputClass} />
+          </div>
+          <div>
+            <label htmlFor="air-discount-percent" className="mb-1.5 block text-sm font-bold text-[#33434e]">ส่วนลด (%)</label>
+            <input id="air-discount-percent" type="number" min="0" max="100" step="0.01" value={discountPercent} onChange={(event) => changeDiscountPercent(event.target.value)} className={inputClass} />
           </div>
           <div>
             <label htmlFor="air-price-install" className="mb-1.5 block text-sm font-bold text-[#33434e]">ราคาพร้อมติดตั้ง (บาท)</label>
-            <input id="air-price-install" type="number" min="0" max="9999999999.99" step="0.01" value={values.priceInstall} onChange={(event) => setField("priceInstall", event.target.value)} required className={inputClass} />
+            <input id="air-price-install" type="number" min="0" max="9999999999.99" step="0.01" value={values.priceInstall} onChange={(event) => changeInstallPrice(event.target.value)} required className={inputClass} />
           </div>
           <div>
             <label htmlFor="air-warranty-install" className="mb-1.5 block text-sm font-bold text-[#33434e]">รับประกันติดตั้ง (วัน)</label>
             <input id="air-warranty-install" type="number" min="0" max="2147483647" step="1" value={values.installWarranty} onChange={(event) => setField("installWarranty", event.target.value)} required className={inputClass} />
           </div>
           <div>
-            <label htmlFor="air-warranty-compressor" className="mb-1.5 block text-sm font-bold text-[#33434e]">รับประกันคอมเพรสเซอร์ (วัน)</label>
-            <input id="air-warranty-compressor" type="number" min="0" max="2147483647" step="1" value={values.compressorWarranty} onChange={(event) => setField("compressorWarranty", event.target.value)} required className={inputClass} />
+            <label htmlFor="air-warranty-compressor" className="mb-1.5 block text-sm font-bold text-[#33434e]">รับประกันคอมเพรสเซอร์ (ปี)</label>
+            <input id="air-warranty-compressor" type="number" min="0" max={MAX_WARRANTY_YEARS} step="any" value={values.compressorWarrantyYears} onChange={(event) => setField("compressorWarrantyYears", event.target.value)} required className={inputClass} />
           </div>
           <div>
-            <label htmlFor="air-warranty-parts" className="mb-1.5 block text-sm font-bold text-[#33434e]">รับประกันอะไหล่ (วัน)</label>
-            <input id="air-warranty-parts" type="number" min="0" max="2147483647" step="1" value={values.sparePartWarranty} onChange={(event) => setField("sparePartWarranty", event.target.value)} required className={inputClass} />
+            <label htmlFor="air-warranty-parts" className="mb-1.5 block text-sm font-bold text-[#33434e]">รับประกันอะไหล่ (ปี)</label>
+            <input id="air-warranty-parts" type="number" min="0" max={MAX_WARRANTY_YEARS} step="any" value={values.sparePartWarrantyYears} onChange={(event) => setField("sparePartWarrantyYears", event.target.value)} required className={inputClass} />
           </div>
+        </div>
+      </fieldset>
+
+      <fieldset className="border-t border-[#dce4e9] pt-6">
+        <legend className="text-base font-bold text-[#1f303b]">สต็อกสินค้า</legend>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="air-stock" className="mb-1.5 block text-sm font-bold text-[#33434e]">จำนวนสต็อก (เครื่อง)</label>
+            <input id="air-stock" type="number" min="0" max="2147483647" step="1" value={values.stock} onChange={(event) => setField("stock", event.target.value)} required className={inputClass} />
+          </div>
+          <label htmlFor="air-out-of-stock" className="flex items-center gap-2 text-sm font-bold text-[#33434e]">
+            <input id="air-out-of-stock" type="checkbox" checked={values.isOutOfStock} onChange={(event) => setField("isOutOfStock", event.target.checked)} className="size-4 accent-[#327db4]" />
+            สินค้าหมด
+          </label>
         </div>
       </fieldset>
 

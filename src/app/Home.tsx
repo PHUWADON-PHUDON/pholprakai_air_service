@@ -21,6 +21,11 @@ export default function Home({
     initialCatalog?: CatalogPage;
     initialFilters?: CatalogFilters;
 }) {
+    const currentYear = Number(new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        timeZone: "Asia/Bangkok",
+    }).format(new Date()));
+
     const images = [
         "002.png", "004.png", "005.png", "006.png", "007.png", "008.png"
     ];
@@ -342,7 +347,10 @@ export default function Home({
                 </div>
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">แอร์ พร้อมติดตั้ง</h2>
+                <h2 className="text-[25px] font-bold text-center">
+                    แอร์ พร้อมติดตั้ง{" "}
+                    <span className="inline-block whitespace-nowrap">ปี {currentYear - 1} - {currentYear}</span>
+                </h2>
                 <div className="mt-[20px]">
                     <AirReady initialCatalog={initialCatalog} initialFilters={initialFilters} />
                 </div>

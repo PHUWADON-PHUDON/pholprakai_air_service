@@ -1,0 +1,3 @@
+ALTER TABLE "model"
+    ADD COLUMN "stock" INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN "is_out_of_stock" BOOLEAN NOT NULL DEFAULT false;

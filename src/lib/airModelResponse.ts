@@ -18,6 +18,8 @@ export function serializeAirModel(model: AirModelWithRelations) {
     seer: Number(model.seer),
     priceInstall: Number(model.priceInstall),
     priceDefault: Number(model.priceDefault),
+    stock: model.stock,
+    isOutOfStock: model.isOutOfStock,
     installWarranty: model.installWarranty,
     compressorWarranty: model.compressorWarranty,
     sparePartWarranty: model.sparePartWarranty,

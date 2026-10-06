@@ -6,6 +6,8 @@ export type AirModelInput = {
   seer: string;
   priceInstall: string;
   priceDefault: string;
+  stock: number;
+  isOutOfStock: boolean;
   installWarranty: number;
   compressorWarranty: number;
   sparePartWarranty: number;
@@ -36,6 +38,7 @@ export function parseAirModelInput(value: unknown): AirModelInput | null {
       typeof input.modelCode !== "string" || !input.modelCode.trim() || input.modelCode.trim().length > 500 ||
       !wholeNumber(input.btu, true) || typeof input.isSaveElectricity !== "boolean" ||
       !decimal(input.seer, 3, true) || !decimal(input.priceInstall, 10) || !decimal(input.priceDefault, 10) ||
+      !wholeNumber(input.stock) || typeof input.isOutOfStock !== "boolean" ||
       !wholeNumber(input.installWarranty) || !wholeNumber(input.compressorWarranty) || !wholeNumber(input.sparePartWarranty) ||
       typeof input.brandId !== "string" || !UUID_PATTERN.test(input.brandId) ||
       typeof input.systemId !== "string" || !UUID_PATTERN.test(input.systemId) ||
@@ -64,6 +67,8 @@ export function parseAirModelInput(value: unknown): AirModelInput | null {
     seer: input.seer,
     priceInstall: input.priceInstall,
     priceDefault: input.priceDefault,
+    stock: input.stock,
+    isOutOfStock: input.isOutOfStock,
     installWarranty: input.installWarranty,
     compressorWarranty: input.compressorWarranty,
     sparePartWarranty: input.sparePartWarranty,
