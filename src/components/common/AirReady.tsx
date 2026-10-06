@@ -96,8 +96,6 @@ function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }
     : 0;
   const displayDiscount = Math.trunc(discount);
 
-  console.log("items: ",item)
-
   return (
     <article className="relative">
       <p className={`
