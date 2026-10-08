@@ -80,7 +80,7 @@ export default function Home({
                             max-[480px]:text-[25px] max-[480px]:text-center
                             max-[395px]:text-[20px]
                         `} >
-                            ร้านแอร์ชลบุรี
+                            ช่างแอร์ชลบุรี
                         </span>
                         <span className={`
                             text-[50px] block font-bold text-blue-2
