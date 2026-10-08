@@ -8,6 +8,7 @@ export type AirModel = {
   modelCode: string;
   btu: number;
   isSaveElectricity: boolean;
+  enegyLabel: number;
   seer: number;
   priceInstall: number;
   priceDefault: number;
@@ -63,6 +64,7 @@ export type CatalogItem = {
   modelCode: string;
   btu: number;
   isSaveElectricity: boolean;
+  enegyLabel: number;
   seer: number;
   priceInstall: number;
   priceDefault: number;

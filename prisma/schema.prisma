@@ -40,6 +40,7 @@ model Model {
   name               String  @db.VarChar(500)
   btu                Int
   isSaveElectricity  Boolean @map("is_save_electricity")
+  enegyLabel         Int     @default(0) @map("enegy_label")
   seer               Decimal @db.Decimal(5, 2)
   priceInstall       Decimal @map("price_install") @db.Decimal(12, 2)
   priceDefault       Decimal @map("price_default") @db.Decimal(12, 2)

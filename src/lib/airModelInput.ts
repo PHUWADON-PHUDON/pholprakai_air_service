@@ -3,6 +3,7 @@ export type AirModelInput = {
   modelCode: string;
   btu: number;
   isSaveElectricity: boolean;
+  enegyLabel: number;
   seer: string;
   priceInstall: string;
   priceDefault: string;
@@ -37,6 +38,7 @@ export function parseAirModelInput(value: unknown): AirModelInput | null {
   if (typeof input.name !== "string" || !input.name.trim() || input.name.trim().length > 500 ||
       typeof input.modelCode !== "string" || !input.modelCode.trim() || input.modelCode.trim().length > 500 ||
       !wholeNumber(input.btu, true) || typeof input.isSaveElectricity !== "boolean" ||
+      !wholeNumber(input.enegyLabel) || input.enegyLabel > 5 ||
       !decimal(input.seer, 3, true) || !decimal(input.priceInstall, 10) || !decimal(input.priceDefault, 10) ||
       !wholeNumber(input.stock) || typeof input.isOutOfStock !== "boolean" ||
       !wholeNumber(input.installWarranty) || !wholeNumber(input.compressorWarranty) || !wholeNumber(input.sparePartWarranty) ||
@@ -64,6 +66,7 @@ export function parseAirModelInput(value: unknown): AirModelInput | null {
     modelCode: input.modelCode.trim(),
     btu: input.btu,
     isSaveElectricity: input.isSaveElectricity,
+    enegyLabel: input.isSaveElectricity ? input.enegyLabel : 0,
     seer: input.seer,
     priceInstall: input.priceInstall,
     priceDefault: input.priceDefault,

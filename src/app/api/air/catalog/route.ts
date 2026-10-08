@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const btu = params.get("btu") || undefined;
   const page = Number(params.get("page") ?? "1");
   const limit = Number(params.get("limit") ?? "8");
-  const sort = params.get("sort") ?? "name";
+  const sort = params.get("sort") ?? "price-asc";
 
   if ((brandId && !UUID_PATTERN.test(brandId)) || (systemId && !UUID_PATTERN.test(systemId)) ||
       (btu && (!/^\d+$/.test(btu) || Number(btu) < 1 || Number(btu) > 2_147_483_647)) ||
