@@ -355,13 +355,7 @@ export default function Home({
                     <AirReady initialCatalog={initialCatalog} initialFilters={initialFilters} />
                 </div>
             </div>
-            <div id="workings" className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">กิจกรรมการทำงาน</h2>
-                <div className="mt-[20px]">
-                    <ImagesActivity images={activityImages} videos={videoUrl}/>
-                </div>
-            </div>
-            <div className="mt-[25px] mb-[25px] p-[20px]">
+             <div className="mt-[25px] mb-[25px] p-[20px]">
                 <h2 className="text-[25px] font-bold text-center">คำนวณ BTU</h2>
                 <div className={`
                     mt-[20px] flex items-center gap-[20px]
@@ -521,6 +515,12 @@ export default function Home({
                         <CircleAlert color="red"/>
                     </div>
                     <p className="text-red-500 text-[14px]">หมายเหตุ: ข้อมูลที่ได้จากการคำนวณนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น ยังมีปัจจัยอื่น ๆ เช่น จำนวนคน ทิศทางแดด หรือเครื่องใช้ไฟฟ้าที่มีความร้อน อาจทำให้ต้องเพิ่มขนาด btu และ ควรเลือกแอร์ที่มีขนาด btu สูงกว่าที่คำนวณได้เสมอ เช่น คำนวณได้ 8,500 btu ควรปัดขึ้นเป็น 9,000 btu หรือคำนวณได้ 11,470 btu ก็ควรปัดขึ้นเป็น 12,000 btu เป็นต้น เพื่อป้องกันไม่ให้แอร์ทำงานหนักจนเกินไปครับ</p>
+                </div>
+            </div>
+            <div id="workings" className="mt-[25px] mb-[25px] p-[20px]">
+                <h2 className="text-[25px] font-bold text-center">กิจกรรมการทำงาน</h2>
+                <div className="mt-[20px]">
+                    <ImagesActivity images={activityImages} videos={videoUrl}/>
                 </div>
             </div>
             <div id="contact-us" className={`

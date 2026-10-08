@@ -3,7 +3,7 @@ import { getPrisma } from "@/lib/prisma";
 
 export async function getCatalogFiltersData(): Promise<CatalogFilters> {
   const prisma = getPrisma();
-  const [brands, systems, sizes] = await Promise.all([
+  const [brands, systems] = await Promise.all([
     prisma.brand.findMany({
       where: { models: { some: {} } },
       select: { id: true, name: true },
@@ -14,22 +14,21 @@ export async function getCatalogFiltersData(): Promise<CatalogFilters> {
       select: { id: true, name: true },
       orderBy: { name: "asc" },
     }),
-    prisma.model.findMany({
-      distinct: ["btu"],
-      select: { btu: true },
-      orderBy: { btu: "asc" },
-    }),
   ]);
 
-  return { brands, systems, btus: sizes.map(({ btu }) => btu) };
+  return { brands, systems, btus: [9000, 12000, 15000, 18000] };
 }
 
 export async function getCatalogPageData(params: CatalogParams): Promise<CatalogPage> {
   const { brandId, systemId, btu, sort, page, limit } = params;
+  const btuValue = Number(btu);
+  const btuFilter = [9000, 12000, 15000, 18000].includes(btuValue)
+    ? { gte: btuValue, lt: btuValue + 3000 }
+    : btuValue;
   const where = {
     ...(brandId ? { brandId } : {}),
     ...(systemId ? { systemId } : {}),
-    ...(btu ? { btu: Number(btu) } : {}),
+    ...(btu ? { btu: btuFilter } : {}),
   };
   const orderBy = sort === "price-asc" ? { priceInstall: "asc" as const }
     : sort === "price-desc" ? { priceInstall: "desc" as const }
