@@ -24,6 +24,7 @@ type FormValues = {
   systemId: string;
   btu: string;
   isSaveElectricity: boolean;
+  enegyLabel: string;
   seer: string;
   priceDefault: string;
   priceInstall: string;
@@ -74,6 +75,7 @@ function initialValues(model?: AirModel): FormValues {
     systemId: model?.systemId ?? "",
     btu: model?.btu.toString() ?? "",
     isSaveElectricity: model?.isSaveElectricity ?? false,
+    enegyLabel: model?.isSaveElectricity ? (model.enegyLabel ?? 0).toString() : "0",
     seer: model?.seer.toFixed(2) ?? "",
     priceDefault: model?.priceDefault.toFixed(2) ?? "",
     priceInstall: model?.priceInstall.toFixed(2) ?? "",
@@ -95,9 +97,13 @@ export default function AirModelForm({ modelId }: { modelId?: string }) {
     queryFn: () => getAirModel(modelId!),
     enabled: !!modelId,
     retry: false,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
-  if (brandsQuery.isPending || systemsQuery.isPending || (modelId && modelQuery.isPending)) {
+  // Initialize editable state only after the entry fetch has refreshed cached data.
+  if (brandsQuery.isPending || systemsQuery.isPending || (modelId && (modelQuery.isPending || modelQuery.isFetching))) {
     return <p className="py-10 text-sm text-[#64727b]">กำลังโหลดข้อมูล...</p>;
   }
   if (brandsQuery.isError || systemsQuery.isError || (modelId && modelQuery.isError)) {
@@ -184,6 +190,7 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
         systemId: values.systemId,
         btu: Number(values.btu),
         isSaveElectricity: values.isSaveElectricity,
+        enegyLabel: values.isSaveElectricity ? Number(values.enegyLabel) : 0,
         seer: values.seer,
         priceDefault: values.priceDefault,
         priceInstall: values.priceInstall,
@@ -196,12 +203,12 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
       };
       return model ? updateAirModel({ id: model.id, input }) : createAirModel(input);
     },
-    onSuccess: () => {
+    onSuccess: (savedModel) => {
+      queryClient.setQueryData(["air-model", savedModel.id], savedModel);
       queryClient.invalidateQueries({ queryKey: ["air-models"] });
       queryClient.invalidateQueries({ queryKey: ["air-catalog"] });
       queryClient.invalidateQueries({ queryKey: ["air-brands"] });
       queryClient.invalidateQueries({ queryKey: ["air-systems"] });
-      if (model) queryClient.invalidateQueries({ queryKey: ["air-model", model.id] });
       router.push("/admin");
     },
     onError: (error) => {
@@ -272,10 +279,26 @@ function AirModelFields({ model, brands, systems }: { model?: AirModel; brands: 
             <label htmlFor="air-seer" className="mb-1.5 block text-sm font-bold text-[#33434e]">SEER</label>
             <input id="air-seer" type="number" min="0.01" max="999.99" step="0.01" value={values.seer} onChange={(event) => setField("seer", event.target.value)} required className={inputClass} />
           </div>
-          <label className="flex items-center gap-2 text-sm font-bold text-[#33434e] sm:col-span-2">
-            <input type="checkbox" checked={values.isSaveElectricity} onChange={(event) => setField("isSaveElectricity", event.target.checked)} className="size-4 accent-[#327db4]" />
+          <label htmlFor="air-save-electricity" className="flex items-center gap-2 text-sm font-bold text-[#33434e] sm:col-span-2">
+            <input id="air-save-electricity" type="checkbox" checked={values.isSaveElectricity} onChange={(event) => {
+              const checked = event.target.checked;
+              setValues((current) => ({ ...current, isSaveElectricity: checked, enegyLabel: checked ? current.enegyLabel : "0" }));
+            }} className="size-4 accent-[#327db4]" />
             ประหยัดไฟ
           </label>
+          {values.isSaveElectricity && (
+            <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
+              <div className="min-w-40 flex-1 sm:max-w-xs">
+                <label htmlFor="air-energy-label" className="mb-1.5 block text-sm font-bold text-[#33434e]">จำนวนดาวฉลากประหยัดไฟ</label>
+                <select id="air-energy-label" value={values.enegyLabel} onChange={(event) => setField("enegyLabel", event.target.value)} required className={inputClass}>
+                  <option value="0">0 ดาว (ไม่มีดาว)</option>
+                  {[1, 2, 3, 4, 5].map((stars) => <option key={stars} value={stars}>{stars} ดาว</option>)}
+                </select>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/logo/energy-label-${values.enegyLabel}-stars.png`} alt={`ฉลากประหยัดไฟเบอร์ 5 ${values.enegyLabel} ดาว`} className="size-24 shrink-0 object-contain" />
+            </div>
+          )}
         </div>
       </fieldset>
 

@@ -105,7 +105,7 @@ function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }
         สินค้าหมด
       </p>
       <div className={`${item.isOutOfStock ? "grayscale":item.stock <= 0 && "grayscale"}`}>
-        <div className="relative flex min-w-0 h-[400px] flex-col p-4 overflow-hidden rounded-[8px] border-2 border-[#dedede] text-[#373737] transition-colors hover:border-[#75a4bd]">
+        <div className="relative flex min-w-0 w-full aspect-square flex-col p-1.5 sm:p-2 overflow-hidden rounded-[8px] border-2 border-[#dedede] text-[#373737] transition-colors hover:border-[#75a4bd]">
           <div
             aria-hidden="true"
             className={`
@@ -120,16 +120,16 @@ function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }
           />
           <span 
             className={`
-              absolute z-1 p-[5px] left-0 top-0 block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede]
+              absolute z-1 p-1 left-0 top-0 block border w-[40px] sm:w-[60px] h-6 sm:h-8 bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede]
               ${!item.isSaveElectricity && "rounded-br-[8px]"}
             `}>
             <BrandLogo item={item} />
           </span>
           {item.isSaveElectricity &&
-            <span className="absolute z-1 p-[5px] left-0 top-[40px] block border w-[80px] h-[40px] bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede] rounded-br-[8px]">
+            <span className="absolute z-1 p-1 left-0 top-6 sm:top-8 block border w-[40px] sm:w-[60px] h-6 sm:h-8 bg-[#dedede]/60 border-transparent border-b-[#dedede] border-r-[#dedede] rounded-br-[8px]">
               <img
-                src={"/logo/number5.png"}
-                alt={`โลโก้ ประหยัดไฟเบอร์ 5`}
+                src={`/logo/energy-label-${item.enegyLabel}-stars.png`}
+                alt={`โลโก้ ประหยัดไฟเบอร์ ${item.enegyLabel}`}
                 loading="lazy"
                 decoding="async"
                 className="w-full h-full object-contain"
@@ -137,12 +137,11 @@ function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }
             </span>
           }
           {displayDiscount > 0 &&
-            <div className={`border border-transparent border-b-[#dedede] border-l-[#dedede] bg-yellow-400 absolute z-1 p-[5px] right-0 top-0 block w-[72px] h-[40px] text-center text-white rounded-bl-[8px]`}>
-              <p className="text-[14px] mt-[-6px]">ลด</p>
-              <p className="mt-[-5px] font-bold">{displayDiscount}%</p>
+            <div className="border border-transparent border-b-[#dedede] border-l-[#dedede] bg-yellow-400 absolute z-1 right-0 top-0 flex w-10 sm:w-14 h-6 sm:h-8 items-center justify-center text-center text-white rounded-bl-[8px]">
+              <p className="text-xs sm:text-sm font-bold">-{displayDiscount}%</p>
             </div>
           }
-          <div className="relative h-[45%] shrink-0 mb-3 overflow-hidden">
+          <div className="relative min-h-0 flex-1 mb-1 overflow-hidden">
             <ProductImage item={item} />
             {/* <div className="absolute left-0 top-2 flex max-w-[60%] flex-col items-start gap-1 text-xs font-bold text-white">
               <span className="max-w-full bg-[#78aa22] px-1.5 py-1">พร้อมติดตั้ง</span>
@@ -154,24 +153,26 @@ function ProductCard({ item, onOpen }: { item: CatalogItem; onOpen: () => void }
               </span>
             )} */}
           </div>
-          <div className="flex min-h-0 flex-1 flex-col items-center text-center">
-            <h3 title={item.name} className="w-full line-clamp-2 text-[18px] font-bold leading-[1.35] [overflow-wrap:anywhere]">
+          <div className="flex shrink-0 flex-col items-center text-center">
+            <h3 title={item.name} className="w-full h-8 sm:h-10 shrink-0 line-clamp-2 text-xs sm:text-sm font-bold leading-4 sm:leading-5 [overflow-wrap:anywhere]">
               {item.name}
             </h3>
-            <p className="mt-3 max-w-full text-base font-bold text-[#3988c2] font-bold">SKU : {item.modelCode}</p>
-            <p className="mt-1 max-w-full text-sm text-[#3988c2] font-black">
+            <p className="hidden sm:block mt-1 w-full truncate text-xs font-bold text-[#3988c2]" title={item.modelCode}>SKU : {item.modelCode}</p>
+            <p className="hidden sm:block mt-1 max-w-full truncate text-xs text-[#3988c2] font-black">
               {item.systemName} · {numberFormat.format(item.btu)} BTU
             </p>
-            <p className="mt-[15px] font-bold">พร้อมติดตั้ง</p>
-            <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-0">
+            <div className="mt-1 w-full shrink-0">
+            <p className="text-[11px] sm:text-xs font-bold">พร้อมติดตั้ง</p>
+            <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-0">
               {hasDiscount && (
-                <span className="text-[15px] font-semibold text-red-500 line-through">
+                <span className="text-[10px] sm:text-xs font-semibold text-red-500 line-through">
                   {priceFormat.format(item.priceDefault)}
                 </span>
               )}
-              <span className="text-[21px] font-bold text-green">
+              <span className="text-sm sm:text-lg font-bold text-green">
                 {priceFormat.format(item.priceInstall)}
               </span>
+            </div>
             </div>
           </div>
           <button
@@ -346,17 +347,19 @@ function ProductDetail({ item, onClose }: { item: CatalogItem; onClose: () => vo
           </div>
           <h3 className="mt-5 text-base font-bold">รายละเอียดสินค้า</h3>
           <dl className="mt-2 divide-y divide-[#edf0f2] text-sm">
-            <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">จำนวน</dt><dd className="text-right font-semibold">{item.isOutOfStock ? "0":item.stock <= 0 ? "0":item.stock}</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ขนาดทำความเย็น</dt><dd className="text-right font-semibold">{numberFormat.format(item.btu)} BTU</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ระบบ</dt><dd className="text-right font-semibold">{item.systemName}</dd></div>
             <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ค่า SEER</dt><dd className="text-right font-semibold">{item.seer > 0 ? numberFormat.format(item.seer) : "ยังไม่ระบุ"}</dd></div>
-            <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ประหยัดไฟ</dt><dd className="text-right font-semibold">{item.isSaveElectricity ? "ใช่" : "ไม่ใช่"}</dd></div>
+            {item.isSaveElectricity &&
+              <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">ประหยัดไฟ</dt><dd className="text-right font-semibold">เบอร์ 5 {item.enegyLabel > 0 ? `/ ${item.enegyLabel} ดาว`:item.enegyLabel >= 5 && `/ ${item.enegyLabel} ดาว`}</dd></div>
+            }
             {warranties.map(([label, days]) => (
               <div key={label} className="flex justify-between gap-4 py-2">
                 <dt className="text-[#64727b]">{label}</dt>
                 <dd className="text-right font-semibold">{days > 0 ? formatWarranty(days) : "ยังไม่ระบุ"}</dd>
               </div>
             ))}
+            <div className="flex justify-between gap-4 py-2"><dt className="text-[#64727b]">สินค้าในคลัง</dt><dd className="text-right font-semibold">{item.isOutOfStock ? "0":item.stock <= 0 ? "0":item.stock} เครื่อง</dd></div>
           </dl>
         </div>
       </div>
@@ -392,7 +395,7 @@ export default function AirReady({
   const [brandId, setBrandId] = useState("");
   const [systemId, setSystemId] = useState("");
   const [btu, setBtu] = useState("");
-  const [sort, setSort] = useState<CatalogParams["sort"]>("name");
+  const [sort, setSort] = useState<CatalogParams["sort"]>("price-asc");
   const [selectedItem, setSelectedItem] = useState<CatalogItem | null>(null);
 
   useEffect(() => {
@@ -410,11 +413,11 @@ export default function AirReady({
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const limit = columns * 2;
+  const limit = 8;
   const activeSystemId = columns === 1 ? "" : systemId;
-  const activeSort = columns === 1 ? "name" : sort;
+  const activeSort = columns === 1 ? "price-asc" : sort;
   const params: CatalogParams = { brandId, systemId: activeSystemId, btu, sort: activeSort, page, limit };
-  const initialPage = initialCatalog && !brandId && !activeSystemId && !btu && activeSort === "name" && page === 1 && limit <= 8
+  const initialPage = initialCatalog && !brandId && !activeSystemId && !btu && activeSort === "price-asc" && page === 1 && limit <= 8
     ? {
         ...initialCatalog,
         items: initialCatalog.items.slice(0, limit),
@@ -492,8 +495,8 @@ export default function AirReady({
           <button type="button" onClick={() => catalogQuery.refetch()} className="mt-2 font-bold underline">ลองอีกครั้ง</button>
         </div>
       ) : !data ? (
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4" aria-label="กำลังโหลดรายการแอร์">
-          {Array.from({ length: limit }, (_, index) => <div key={index} className="h-[400px] animate-pulse rounded-[4px] bg-[#eef2f4]" />)}
+        <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 xl:grid-cols-4" aria-label="กำลังโหลดรายการแอร์">
+          {Array.from({ length: limit }, (_, index) => <div key={index} className="aspect-square animate-pulse rounded-[4px] bg-[#eef2f4]" />)}
         </div>
       ) : data.items.length === 0 ? (
         <p className="py-12 text-center text-sm text-[#64727b]">ไม่พบรุ่นแอร์ที่ตรงกับตัวกรอง</p>
@@ -502,7 +505,7 @@ export default function AirReady({
           {/* <p className="mt-4 text-sm text-[#64727b]" aria-live="polite">
             {numberFormat.format(data.total)} รุ่นแอร์
           </p> */}
-          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
             {data.items.map((item) => <ProductCard key={item.id} item={item} onOpen={() => setSelectedItem(item)} />)}
           </div>
           {totalPages > 1 && (

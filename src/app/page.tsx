@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 
 export default async function page() {
   const [catalogResult, filtersResult] = await Promise.allSettled([
-    getCatalogPageData({ brandId: "", systemId: "", btu: "", sort: "name", page: 1, limit: 8 }),
+    getCatalogPageData({ brandId: "", systemId: "", btu: "", sort: "price-asc", page: 1, limit: 8 }),
     getCatalogFiltersData(),
   ]);
   const initialCatalog: CatalogPage | undefined = catalogResult.status === "fulfilled" ? catalogResult.value : undefined;

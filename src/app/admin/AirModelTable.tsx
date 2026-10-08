@@ -142,7 +142,14 @@ export default function AirModelTable() {
                   </td>
                   <td className="px-4 py-3 text-right tabular-nums">{numberFormat.format(model.btu)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{model.seer.toFixed(2)}</td>
-                  <td className="px-4 py-3 text-center">{model.isSaveElectricity ? "ใช่" : "ไม่ใช่"}</td>
+                  <td className="px-4 py-3 text-center">
+                    {model.isSaveElectricity ? (
+                      <>
+                        <div>ใช่</div>
+                        <div className="mt-0.5 whitespace-nowrap text-xs text-[#64727b]">{(model.enegyLabel ?? 0) > 0 ? `${model.enegyLabel} ดาว` : "ไม่มีดาว"}</div>
+                      </>
+                    ) : "ไม่ใช่"}
+                  </td>
                   <td className="px-4 py-3 text-right tabular-nums">{priceFormat.format(model.priceDefault)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{priceFormat.format(model.priceInstall)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{numberFormat.format(model.stock)}</td>

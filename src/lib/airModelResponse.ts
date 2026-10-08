@@ -15,6 +15,7 @@ export function serializeAirModel(model: AirModelWithRelations) {
     modelCode: model.modelCode,
     btu: model.btu,
     isSaveElectricity: model.isSaveElectricity,
+    enegyLabel: model.enegyLabel,
     seer: Number(model.seer),
     priceInstall: Number(model.priceInstall),
     priceDefault: Number(model.priceDefault),
