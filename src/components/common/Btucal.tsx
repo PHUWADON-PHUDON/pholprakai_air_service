@@ -22,7 +22,7 @@ export default function Btucal() {
     const [height, setHeight] = useState("");
 
     const [coolingLoad, setCoolingLoad] =
-        useState(800);
+        useState(850);
 
     const area = Number(width) * Number(length);
 

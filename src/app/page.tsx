@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Home from "./Home";
 import type { CatalogFilters, CatalogPage } from "@/features/air/service";
+import { SERVICES } from "@/lib/services";
 import { getCatalogFiltersData, getCatalogPageData } from "@/lib/catalog";
 import {
   absoluteUrl,
@@ -14,7 +15,7 @@ import {
   SITE_URL,
 } from "@/lib/seo";
 
-const pageTitle = `ช่างแอร์ชลบุรี | ${BUSINESS_NAME} ล้างแอร์ ติดตั้งแอร์ ย้ายแอร์ ซ่อมแอร์ ตรวจเช็คระบบน้ำยา วิเคราะห์อาการเสีย และอื่นๆ... | ร้านแอร์ชลบุรี`;
+const pageTitle = `ช่างแอร์ชลบุรี ล้างแอร์ ติดตั้งแอร์ ซ่อมแอร์ ร้านแอร์ชลบุรี | ${BUSINESS_NAME}`;
 const socialImage = absoluteUrl("/slide_images/002.png");
 
 export const dynamic = "force-dynamic";
@@ -107,18 +108,12 @@ export default async function page() {
       "https://www.facebook.com/profile.php?id=61588541855926&locale=th_TH",
       "https://www.tiktok.com/@tumair_chonburi",
     ],
-    makesOffer: [
-      "ติดตั้งแอร์ใหม่",
-      "ล้างแอร์",
-      "ย้ายแอร์",
-      "ซ่อมแอร์",
-      "ตรวจเช็คระบบน้ำยา",
-      "วิเคราะห์อาการเสีย",
-    ].map((name) => ({
+    makesOffer: SERVICES.map((s) => ({
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
-        name,
+        name: s.name,
+        url: absoluteUrl(`/services/${s.slug}`),
         areaServed: "ชลบุรี",
       },
     })),
