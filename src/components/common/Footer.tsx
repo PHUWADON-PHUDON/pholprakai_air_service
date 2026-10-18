@@ -89,10 +89,10 @@ export default function Footer() {
                                 <FaceBook color="white"/>
                                 <p className="text-white">FaceBook</p>
                             </a>
-                            <div className="flex items-center justify-center mt-[10px] gap-2 bg-[#ff0033] w-full p-[8px_10px] rounded-[30px]">
+                            <a href="https://www.youtube.com/@%E0%B8%9E%E0%B8%A5%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A2%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%8B%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A7%E0%B8%B4%E0%B8%AA%E0%B8%8A%E0%B8%A5%E0%B8%9A%E0%B8%B8%E0%B8%A3%E0%B8%B5" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center mt-[10px] gap-2 bg-[#ff0033] w-full p-[8px_10px] rounded-[30px]">
                                 <YouTube color="white"/>
                                 <p className="text-white">YouTube</p>
-                            </div>
+                            </a>
                             <a href="https://www.tiktok.com/@tumair_chonburi" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center mt-[10px] gap-2 bg-[#ffff] w-full p-[8px_10px] rounded-[30px]">
                                 <TikTok color="white"/>
                                 <p className="text-black">TikTok</p>

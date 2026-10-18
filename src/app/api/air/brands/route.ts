@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_SESSION_COOKIE, readAdminSession } from "@/lib/adminSession";
@@ -34,5 +35,6 @@ export async function POST(request: Request) {
   if (!input) return NextResponse.json({ message: "กรุณากรอกชื่อและ URL รูปภาพให้ถูกต้อง" }, { status: 400 });
 
   const brand = await getPrisma().brand.create({ data: input });
+  revalidatePath("/");
   return NextResponse.json({ ...brand, modelCount: 0 }, { status: 201 });
 }

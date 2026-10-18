@@ -262,10 +262,6 @@ export default function Home({
                                     <span className="text-[18px]">{s.name}</span>
                                 </Link>
                             ))}
-                            <Link href="/services/air-repair" className="mb-[10px] underline flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <span className="text-[18px]">วิเคราะห์อาการเสีย</span>
-                            </Link>
                         </div>
 
                         <div className={`
