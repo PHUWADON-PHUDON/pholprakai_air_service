@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageShell, { ContactCta, JsonLd } from "@/components/seo/PageShell";
 import { getService, SERVICES } from "@/lib/services";
+import { lastmodOf } from "@/lib/lastmod";
 import { absoluteUrl, BUSINESS_NAME, SERVICE_AREAS, SITE_URL } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -46,6 +47,7 @@ export default async function ServicePage({ params }: Props) {
       "@context": "https://schema.org",
       "@type": "Service",
       name: service.name,
+      dateModified: lastmodOf(`/services/${service.slug}`),
       serviceType: service.name,
       description: service.description,
       url,

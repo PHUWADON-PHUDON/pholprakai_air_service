@@ -18,7 +18,8 @@ import {
 const pageTitle = `ช่างแอร์ชลบุรี ล้างแอร์ ติดตั้งแอร์ ซ่อมแอร์ ร้านแอร์ชลบุรี | ${BUSINESS_NAME}`;
 const socialImage = absoluteUrl("/slide_images/002.png");
 
-export const dynamic = "force-dynamic";
+// cache หน้าแรก 5 นาที และล้าง cache ทันทีเมื่อแก้สินค้าใน admin (revalidatePath ใน /api/air)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: { absolute: pageTitle },
@@ -107,6 +108,7 @@ export default async function page() {
     sameAs: [
       "https://www.facebook.com/profile.php?id=61588541855926&locale=th_TH",
       "https://www.tiktok.com/@tumair_chonburi",
+      "https://www.youtube.com/@%E0%B8%9E%E0%B8%A5%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A2%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%8B%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A7%E0%B8%B4%E0%B8%AA%E0%B8%8A%E0%B8%A5%E0%B8%9A%E0%B8%B8%E0%B8%A3%E0%B8%B5",
     ],
     makesOffer: SERVICES.map((s) => ({
       "@type": "Offer",
