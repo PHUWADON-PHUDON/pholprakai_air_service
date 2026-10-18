@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_SESSION_COOKIE, readAdminSession } from "@/lib/adminSession";
@@ -33,5 +34,6 @@ export async function POST(request: Request) {
   if (!input) return NextResponse.json({ message: "กรุณากรอกชื่อระบบแอร์ไม่เกิน 500 ตัวอักษร" }, { status: 400 });
 
   const system = await getPrisma().system.create({ data: input });
+  revalidatePath("/");
   return NextResponse.json({ ...system, modelCount: 0 }, { status: 201 });
 }

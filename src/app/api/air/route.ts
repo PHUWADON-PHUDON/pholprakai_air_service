@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_SESSION_COOKIE, readAdminSession } from "@/lib/adminSession";
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
       },
       include: airModelInclude,
     });
+    revalidatePath("/");
     return NextResponse.json(serializeAirModel(model), { status: 201 });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && ["P2003", "P2025"].includes(error.code)) {

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { Prisma } from "../../../../../../generated/prisma/client";
@@ -33,6 +34,7 @@ export async function PUT(request: Request, context: Context) {
 
   try {
     const brand = await getPrisma().brand.update({ where: { id: result.id }, data: input });
+    revalidatePath("/");
     return NextResponse.json(brand);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
@@ -57,6 +59,7 @@ export async function DELETE(_request: Request, context: Context) {
 
   try {
     await getPrisma().brand.delete({ where: { id: result.id } });
+    revalidatePath("/");
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {

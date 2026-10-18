@@ -51,7 +51,16 @@ export const metadata: Metadata = {
   description,
   keywords: ["คำนวณ btu แอร์", "แอร์กี่ btu", "ตาราง btu แอร์", "ห้อง 3x4 ใช้แอร์กี่ btu", "เลือกแอร์", "btu คืออะไร"],
   alternates: { canonical: "/btu-calculator" },
-  openGraph: { type: "website", locale: "th_TH", url: "/btu-calculator", siteName: BUSINESS_NAME, title, description },
+  openGraph: {
+    type: "website",
+    locale: "th_TH",
+    url: "/btu-calculator",
+    siteName: BUSINESS_NAME,
+    title,
+    description,
+    images: [{ url: absoluteUrl("/slide_images/002.png"), width: 602, height: 268, alt: "คำนวณ BTU แอร์ พลประกาย แอร์ เซอร์วิส" }],
+  },
+  twitter: { card: "summary_large_image", title, description, images: [absoluteUrl("/slide_images/002.png")] },
 };
 
 const H2 = ({ children }: { children: React.ReactNode }) => <h2 className="text-[24px] font-bold">{children}</h2>;

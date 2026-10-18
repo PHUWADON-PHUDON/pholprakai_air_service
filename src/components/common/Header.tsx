@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Snowflake from "../icons/Snowflake";
 import MainMenu from "./MainMenu";
 import Phone from "../icons/Phone";
@@ -36,13 +37,13 @@ export default function Header() {
                         mx-auto max-w-[1440px] p-[20px_0px_10px_0px] grid grid-cols-2 items-center justify-items-center
                         max-[730px]:grid-cols-[5fr_1fr] 
                     `}>
-                        <div className="flex items-center gap-1 justify-self-start">
+                        <Link href="/" aria-label="พลประกาย แอร์ เซอร์วิส หน้าแรก" className="flex items-center gap-1 justify-self-start">
                             <Snowflake color="var(--blue-1)"/>
                             <p className={`
                                 text-2xl font-bold text-blue-1
                                 max-[450px]:text-[20px]
                             `}>พลประกาย แอร์ เซอร์วิส</p>
-                        </div>
+                        </Link>
                         <div className="justify-self-end">
                             <MainMenu/>
                         </div>

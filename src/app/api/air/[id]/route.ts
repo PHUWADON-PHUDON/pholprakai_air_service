@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { Prisma } from "../../../../../generated/prisma/client";
@@ -65,6 +66,7 @@ export async function PUT(request: Request, context: Context) {
       return tx.model.findUnique({ where: { id: result.id }, include: airModelInclude });
     });
     if (!model) return NextResponse.json({ message: "ไม่พบรุ่นแอร์นี้" }, { status: 404 });
+    revalidatePath("/");
     return NextResponse.json(serializeAirModel(model));
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && ["P2003", "P2025"].includes(error.code)) {
@@ -81,6 +83,7 @@ export async function DELETE(_request: Request, context: Context) {
   try {
     const deleted = await getPrisma().model.deleteMany({ where: { id: result.id } });
     if (!deleted.count) return NextResponse.json({ message: "ไม่พบรุ่นแอร์นี้" }, { status: 404 });
+    revalidatePath("/");
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
