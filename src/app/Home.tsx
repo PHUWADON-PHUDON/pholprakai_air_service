@@ -7,6 +7,9 @@ import ImageMarquee from "@/components/common/ImagesMarquee";
 import Toolbox from "@/components/icons/Toolbox";
 import ImagesActivity from "@/components/common/ImagesActivity";
 import Btucal from "@/components/common/Btucal";
+import BtuTable from "@/components/common/BtuTable";
+import Link from "next/link";
+import { SERVICES } from "@/lib/services";
 import CircleAlert from "@/components/icons/CircleAlert";
 import Footer from "@/components/common/Footer";
 import Verify from "@/components/icons/Verify";
@@ -253,30 +256,16 @@ export default function Home({
                             p-[20px_20px_10px_20px] border-5 border-blue-1/20 rounded-[8px] w-[280px]
                             max-[625px]:w-full
                         `}>
-                            <div className="mb-[10px] flex items-center gap-2">
+                            {SERVICES.map((s) => (
+                                <Link key={s.slug} href={`/services/${s.slug}`} className="mb-[10px] underline flex items-center gap-2">
+                                    <Toolbox color="var(--text)"/>
+                                    <span className="text-[18px]">{s.name}</span>
+                                </Link>
+                            ))}
+                            <Link href="/services/air-repair" className="mb-[10px] underline flex items-center gap-2">
                                 <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ติดตั้งแอร์ใหม่</p>
-                            </div>
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ล้างแอร์</p>
-                            </div>
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ย้ายแอร์</p>
-                            </div>
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ซ่อมแอร์</p>
-                            </div>
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">ตรวจเช็คระบบน้ำยา</p>
-                            </div>
-                            <div className="mb-[10px] flex items-center gap-2">
-                                <Toolbox color="var(--text)"/>
-                                <p className="text-[18px]">วิเคราะห์อาการเสีย</p>
-                            </div>
+                                <span className="text-[18px]">วิเคราะห์อาการเสีย</span>
+                            </Link>
                         </div>
 
                         <div className={`
@@ -347,7 +336,7 @@ export default function Home({
                 </div>
             </div>
             <div className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">
+                <h2 id="air-ready" className="text-[25px] font-bold text-center">
                     แอร์ พร้อมติดตั้ง{" "}
                     <span className="inline-block whitespace-nowrap">NEW {currentYear}</span>
                 </h2>
@@ -356,156 +345,12 @@ export default function Home({
                 </div>
             </div>
              <div className="mt-[25px] mb-[25px] p-[20px]">
-                <h2 className="text-[25px] font-bold text-center">คำนวณ BTU</h2>
+                <h2 id="btu-calculator" className="text-[25px] font-bold text-center"><Link href="/btu-calculator" className="hover:underline">คำนวณ BTU แอร์</Link></h2>
                 <div className={`
                     mt-[20px] flex items-center gap-[20px]
                     max-[1005px]:flex-col    
                 `}>
-                    <table className={`
-                        max-[1005px]:w-full
-                        max-[550px]:text-[14px]
-                    `}>
-                        <thead>
-                            <tr className="border-b border-text/30">
-                                <th className={`
-                                    px-[50px] p-[5px] text-blue-1
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px]
-                                `}>พื้นที่ห้อง (ตร.ม.)</th>
-                                <th className={`
-                                    px-[50px] p-[5px] text-blue-1
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px]
-                                `}>ขนาดห้องโดยประมาณ</th>
-                                <th className={`
-                                    px-[50px] p-[5px] text-blue-1
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px]
-                                `}>BTU ที่แนะนำ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px] 
-                                    max-[550px]:px-[5px]
-                                `}>8–12</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px] 
-                                    max-[550px]:px-[5px]
-                                `}>ห้องนอนเล็ก</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px] 
-                                    max-[550px]:px-[5px]
-                                `}>9,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px] 
-                                    max-[550px]:px-[5px]
-                                `}>12–16</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px]
-                                `}>ห้องนอนกลาง</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px]
-                                `}>12,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>16–20</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>ห้องนอนใหญ่</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>15,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>20–24</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>ห้องนั่งเล่นเล็ก</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>18,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>24–30</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>ห้องนั่งเล่นกลาง</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>20,000–24,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>30–40</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>ห้องนั่งเล่นใหญ่</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>25,000–30,000</td>
-                            </tr>
-                            <tr className="border-b border-text/30">
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>40–50</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>ห้องโถง/ออฟฟิศเล็ก</td>
-                                <td className={`
-                                    px-[50px] p-[5px] text-center
-                                    max-[1190px]:px-[20px]
-                                    max-[550px]:px-[5px] 
-                                `}>32,000–36,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <BtuTable/>
                     <div className="grow-1 flex justify-center">
                         <Btucal/>
                     </div>

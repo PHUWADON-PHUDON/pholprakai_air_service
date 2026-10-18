@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { SERVICES } from "@/lib/services";
 import Snowflake from "../icons/Snowflake";
 import MapPin from "../icons/MapPin";
 import Mail from "../icons/Mail";
@@ -28,12 +30,10 @@ export default function Footer() {
                         mt-[10px]
                         max-[655px]:flex max-[655px]:justify-center max-[655px]:flex-wrap
                     `}>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ติดตั้งแอร์ใหม่</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ล้างแอร์</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ย้ายแอร์</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ตรวจเช็คระบบน้ำยา</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">ซ่อมแอร์</span>
-                        <span className="mr-[10px] mt-[10px] text-[16px] text-white inline-block">วิเคราะห์อาการเสีย</span>
+                        {SERVICES.map((sv) => (
+                            <Link key={sv.slug} href={`/services/${sv.slug}`} className="mr-[10px] mt-[10px] text-[16px] text-white inline-block hover:underline">{sv.name}ชลบุรี</Link>
+                        ))}
+                        <Link href="/btu-calculator" className="mr-[10px] mt-[10px] text-[16px] text-white inline-block hover:underline">คำนวณ BTU</Link>
                     </div>
                     <div className={`
                         mt-[20px] flex flex-wrap gap-1
