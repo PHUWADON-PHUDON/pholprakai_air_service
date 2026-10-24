@@ -70,7 +70,7 @@ export const SERVICES: ServiceInfo[] = [
         a: "อำเภอเมืองชลบุรี เสม็ด บ้านปึก อ่างศิลา ห้วยกะปิ บ้านสวน บางปลาสร้อย บางทราย และพื้นที่ใกล้เคียง",
       },
     ],
-    image: "/activity/11_2.jpg",
+    image: "/activity/18.jpg",
   },
   {
     slug: "air-installation",
@@ -112,7 +112,7 @@ export const SERVICES: ServiceInfo[] = [
         a: "เพื่อไล่อากาศและความชื้นออกจากระบบท่อน้ำยา ถ้าไม่ทำ ความชื้นจะทำให้ระบบเสียหาย แอร์เย็นน้อยลง และคอมเพรสเซอร์อายุสั้นลง",
       },
     ],
-    image: "/activity/6_2.jpg",
+    image: "/activity/20.jpg",
   },
   {
     slug: "air-repair",
@@ -164,7 +164,7 @@ export const SERVICES: ServiceInfo[] = [
         a: "แจ้งสาเหตุและค่าใช้จ่ายให้ลูกค้าตัดสินใจก่อนเริ่มซ่อมทุกครั้ง จบงานแล้วไม่มีเรียกเก็บเพิ่ม",
       },
     ],
-    image: "/activity/13_2.jpg",
+    image: "/activity/19.jpg",
   },
   {
     slug: "air-relocation",
