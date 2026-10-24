@@ -91,7 +91,7 @@ export default async function ServicePage({ params }: Props) {
           width={960}
           height={540}
           sizes="(max-width: 960px) 100vw, 960px"
-          className="mt-[30px] w-full h-auto max-h-[480px] object-cover rounded-[12px]"
+          className="mt-[30px] w-full h-auto max-h-[650px] object-cover rounded-[12px]"
         />
 
         <section className="mt-[40px]">
